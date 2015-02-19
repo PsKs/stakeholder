@@ -153,6 +153,9 @@
                     '</div><div class="radio"> <label for="stklist_type-1"> ' +
                     '<input type="radio" name="stklist_type" id="stklist_type-1" value="level"/>ระดับ (1-5)</label> ' +
                     '</div> ' +
+                    '<div class="radio"> <label for="stklist_type-2"> ' +
+                    '<input type="radio" name="stklist_type" id="stklist_type-2" value="sum"/>ผลรวม</label> ' +
+                    '</div> ' +
                     '</div> </div>' +
                     '</form> </div>  </div>',
                 buttons: {
