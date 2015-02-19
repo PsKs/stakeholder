@@ -1,9 +1,9 @@
-<?php  
-  session_start();//session starts here 
+<?php
+  session_start();//session starts here
   require("../connect.php");
   $ac_id = $_GET['ac'];
   $sql = "select activity.ac_no, activity.ac_name, stakeholder_list.stklist_id, stakeholder_list.stklist_name, stakeholder.stk_id, stakeholder_list.stklist_type
-          from stakeholder_list 
+          from stakeholder_list
           left join stakeholder on (stakeholder.stklist_id = stakeholder_list.stklist_id) 
           left join activity on (stakeholder.ac_id = activity.ac_id) 
           where activity.ac_id = ".$ac_id;
@@ -18,7 +18,7 @@
   }
   mysqli_free_result($run);
   mysqli_close($dbcon);
-?>  
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -95,29 +95,31 @@
             <?php
               foreach ($arr_stklist_type as $key => $value) {
                 if ($value == "text") {
-                  echo $form[] = "<td><input type='text' class='form-control' name='arrList[]'/>";
-                } else {
-                  echo $form[] = "<td><select class='form-control' name='arrNum[]'>
+                  echo $form[] = "<td><input type='text' class='form-control' name='arrList[$key]'/>";
+                } elseif ($value == "level") {
+                  echo $form[] = "<td><select class='form-control' name='arrNum[$key]'>
                                   <option value='-'>SELECT</option>
                                   <option value='1'>1</option>
                                   <option value='2'>2</option>
                                   <option value='3'>3</option>
                                   <option value='4'>4</option>
                                   <option value='5'>5</option>";
+                } else {
+                  echo $form[] = "<td><p id='result[$key]' class='form-control-static'></p>";
                 }
               }
             ?>
             </td>
           </tr>
           </tbody>
-          </table>   
+          </table>
           <button type="button" class="btn btn-primary" id="addScnt"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Row</button>
           <button type="button" class="btn btn-success" id="save">Save</button> 
           <a href="index.php">
           <button type="button" class="btn btn-default">Cancel</button>
-          </a>          
+          </a>
           <?php
-            /* 
+            /*
             แบบ form horizon
             $i = 0;
             foreach ($arr_stk_id as $key => $value) {
@@ -130,7 +132,7 @@
                     </div>";
               $i++;
             }*/
-          ?>     
+          ?>
           <div id="mymsg"></div>
         </div>
       </div>
@@ -140,6 +142,7 @@
         var scntDiv = $('#p_scents');
         var i = $('#p_scents tr').size() + 1;
         var form = <?php echo json_encode($form) ?>;
+        var key = <?php echo json_encode($key) ?>;
         $('#addScnt').click(function() {
           scntDiv.append('<tr>'+form+'</td><td><button type="button" class="btn btn-warning btn-sm" id="remScnt"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</button></td></tr>');
           // document.getElementById('mymsg').innerHTML = form; 
@@ -162,12 +165,12 @@
           var num = $('select[name^=arrNum]').map(function(idx, elem) {
             return $(elem).val();
           }).get();
-          
         console.log(name);
         console.log(num);
         event.preventDefault();
+        document.getElementById('result').innerHTML = name+num;
         // document.getElementById('mymsg').innerHTML = name+num;
-        });           
+        });
     </script>
   </body>
 </html>
