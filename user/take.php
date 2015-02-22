@@ -18,6 +18,7 @@
   }
   mysqli_free_result($run);
   mysqli_close($dbcon);
+  $col_count = count($arr_stklist_id);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,13 +92,45 @@
             </tr>
           </thead>
           <tbody id='p_scents'>
-          <tr>
+            <script>
+              var scntDiv = $('#p_scents'),
+                  i = $('#p_scents tr').size() + 1,
+                  row = 0,
+                  arr_stklist = <?php echo json_encode($arr_stklist_type) ?>,
+                  form = [],
+                  x = [];
+              function gen_form() {
+                arr_stklist.forEach(function(element, index){
+                  if (element == "text") {
+                    form[index] = '<td><input type="text" class="form-control" id="arr_TextAns['+row+']['+index+']"/></td>';
+                  } else if (element == "level") {
+                    form[index] = '<td><select class="form-control" id="arr_LevelAns['+row+']['+index+']">\
+                                      <option value="0" selected="selected">SELECT</option>\
+                                      <option value="1">1</option>\
+                                      <option value="2">2</option>\
+                                      <option value="3">3</option>\
+                                      <option value="4">4</option>\
+                                      <option value="5">5</option></td>';
+                  } else if (element == "sum") {
+                    form[index] = '<td><p id="arr_Result['+row+']['+index+']" class="form-control-static"></p></td>';
+                  }
+                });
+                row++;
+                return form;
+              }
+              function get_form() {
+                scntDiv.append('<tr>'+gen_form()+'</tr>');
+              }            
+            </script>
             <?php
-              foreach ($arr_stklist_type as $key => $value) {
+              echo  '<script type="text/javascript">',
+                    'get_form();',
+                    '</script>';
+              /*foreach ($arr_stklist_type as $key => $value) {
                 if ($value == "text") {
-                  echo $form[] = "<td><input type='text' class='form-control' name='arrList[$key]'/>";
+                  echo $form[] = "<td><input type='text' class='form-control' name='arr_TextAns[][$key]'/>";
                 } elseif ($value == "level") {
-                  echo $form[] = "<td><select class='form-control' name='arrNum[$key]'>
+                  echo $form[] = "<td><select class='form-control' name='arr_LevelAns[][$key]'>
                                   <option value='-'>SELECT</option>
                                   <option value='1'>1</option>
                                   <option value='2'>2</option>
@@ -105,12 +138,12 @@
                                   <option value='4'>4</option>
                                   <option value='5'>5</option>";
                 } else {
-                  echo $form[] = "<td><p id='result[$key]' class='form-control-static'></p>";
+                  echo $form[] = "<td><p id='arr_Result[][$key]' class='form-control-static'></p>";
                 }
-              }
+              }*/
             ?>
-            </td>
-          </tr>
+            
+            
           </tbody>
           </table>
           <button type="button" class="btn btn-primary" id="addScnt"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Row</button>
@@ -124,10 +157,10 @@
             $i = 0;
             foreach ($arr_stk_id as $key => $value) {
               echo "<div class='form-group'>
-                      <label for='arrList[]' class='col-xs-2'>". $arr_stklist_name[$i] ."</label>";
+                      <label for='arr_TextAns[]' class='col-xs-2'>". $arr_stklist_name[$i] ."</label>";
               echo $form[] = "
                       <div class='col-xs-8'>
-                        <input type='text' class='form-control' name='arrList[]' />
+                        <input type='text' class='form-control' name='arr_TextAns[]' />
                       </div>
                     </div>";
               $i++;
@@ -138,39 +171,86 @@
       </div>
     </div>
   </div>
-  <script>
-        var scntDiv = $('#p_scents');
-        var i = $('#p_scents tr').size() + 1;
-        var form = <?php echo json_encode($form) ?>;
-        var key = <?php echo json_encode($key) ?>;
-        $('#addScnt').click(function() {
-          scntDiv.append('<tr>'+form+'</td><td><button type="button" class="btn btn-warning btn-sm" id="remScnt"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</button></td></tr>');
-          // document.getElementById('mymsg').innerHTML = form; 
-          i++;
-          return false;
-        });
-        //Remove button
-        $(document).on('click', '#remScnt', function() {
-            if (i > 2) {
-                $(this).closest('tr').remove();
-                i--;
-            }
-            return false;
-        });
-        // click handler
-        $(document).on('click', '#save', function(event) { 
-          var name = $('input[name^=arrList]').map(function(idx, elem) {
-            return $(elem).val();
-          }).get();
-          var num = $('select[name^=arrNum]').map(function(idx, elem) {
-            return $(elem).val();
-          }).get();
-        console.log(name);
-        console.log(num);
-        event.preventDefault();
-        document.getElementById('result').innerHTML = name+num;
-        // document.getElementById('mymsg').innerHTML = name+num;
-        });
-    </script>
   </body>
 </html>
+<script>
+  function checkHTML(elmId, value) {
+    var elem = document.getElementById(elmId);
+    console.log(elem);
+    if(typeof elem !== 'undefined' && elem !== null) {
+      return true;
+    }
+  }
+  function isNotEmtry(element) {
+    return element.length >= 1;
+  }
+  $('#addScnt').click(function() {   
+    scntDiv.append('<tr>'+gen_form()+
+                    '<td>\
+                      <button type="button" class="btn btn-warning btn-sm" id="remScnt">\
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
+                          Remove\
+                      </button>\
+                    </td>\
+                  </tr>');
+    i++;
+    return false;
+  });
+  //Remove button
+  $(document).on('click', '#remScnt', function() {
+      if (i > 1) {
+          $(this).closest('tr').remove();
+          i--;
+      }
+      return false;
+  });
+  // click handler
+  $(document).on('click', '#save', function(event) {
+    // x.length = 0; faster than x = [];
+    // http://jsperf.com/array-destroy/151
+    x.length = 0;
+    var y = [],
+        sum = 0;
+    for (var m = 0; m < row; m++) {
+      y = [];
+      // console.log('x before loop = ',x);
+      if(document.getElementById(('arr_TextAns['+m+'][0]') || document.getElementById('arr_LevelAns['+m+'][0]') || document.getElementById('arr_Result['+m+'][0]')) !== null) {
+        for (var n = 0; n < arr_stklist.length - 1; n++) {
+          if (arr_stklist[n] == "text") {
+            y.push(document.getElementById('arr_TextAns['+m+']['+n+']').value);
+          } else if (arr_stklist[n] == "level") {
+            y.push(document.getElementById('arr_LevelAns['+m+']['+n+']').value);
+          } else if (arr_stklist[n] == "sum") {
+            // y.push(document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];);
+            // document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];
+          }
+          // console.log(y);
+        }
+        // console.log(y[n-2] * y[n-1]);
+        sum = (y[n-2] * y[n-1]);
+        y.push(sum.toString());
+        document.getElementById('arr_Result['+m+']['+n+']').innerHTML = sum;
+      }
+      // console.log('y = ',y);
+      // console.log('x before = ',x);
+      x.push(y);
+      // console.log('x after = ',x);
+    }
+    x = x.filter(isNotEmtry);
+    console.log('final = ',x);
+    // var name = $('input[id^=arr_TextAns]').map(function(idx, elem) {
+    //   return $(elem).val();
+    // }).get();
+    // var num = $('select[id^=arr_LevelAns]').map(function(idx, elem) {
+    //   return $(elem).val();
+    // }).get();
+    // var toType = function(obj) {
+    //   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+    // }
+  // console.log(name);
+  // console.log(num.map(Number));
+  event.preventDefault();
+  // document.getElementById('arr_Result').innerHTML = name*num;
+  // document.getElementById('mymsg').innerHTML = name*num;
+  });
+</script>
