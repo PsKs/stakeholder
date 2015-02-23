@@ -263,17 +263,16 @@
   bootbox.confirm("คุณต้องการที่จะบันทึกข้อมูลหรือไม่?", function(result) {
     if (result) {
       console.log("User confirmed dialog");
-      var dataString = x;
       if(x) {
         jQuery.ajax({
           type: "POST", // HTTP method POST or GET
           url: "store_ans.php", //PHP Page where all your query will write
           dataType: "text", // Data type, HTML, json etc.
-          data: dataString, //Form Field values
+          data: {'data':x},
           success: function(data) {
-            console.log(dataString);
+            console.log(x);
             // similar behavior as an HTTP redirect
-            // window.location.replace('view.php');
+            // window.location.replace('store_ans.php');
           }
         });
       }

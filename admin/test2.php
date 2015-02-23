@@ -29,7 +29,6 @@
         */
         $sql = "INSERT INTO stakeholder (ac_id, stklist_id) VALUES ('$ac_id', '$value')";
         mysqli_query($dbcon, $sql);
-    
       }
     }
   }
