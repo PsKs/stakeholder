@@ -191,6 +191,13 @@
   function isNotEmtry(element) {
     return element.length >= 1;
   }
+  function multiply(index, array) {
+    // index = elm ที่หาตำแหน่ง sum ได้แล้วก่อนหน้านั้น
+    var sum = 1;
+    for (var i = 0; i < index.length; i++) {
+      sum = sum * array[index[i]];
+    } return sum;
+  }
   $('#addScnt').click(function() {   
     scntDiv.append('<tr>'+gen_form()+
                     '<td>\
@@ -218,12 +225,13 @@
     x.length = 0;
     x.push(<?php echo json_encode($ac_id) ?>);
     var y = [],
+        elm = [],
         sum = 0;
     for (var m = 0; m < row; m++) {
       y = [];
       // console.log('x before loop = ',x);
-      if(document.getElementById(('arr_TextAns['+m+'][0]') || document.getElementById('arr_LevelAns['+m+'][0]') || document.getElementById('arr_Result['+m+'][0]')) !== null) {
-        for (var n = 0; n < arr_stklist.length - 1; n++) {
+      if (document.getElementById(('arr_TextAns['+m+'][0]') || document.getElementById('arr_LevelAns['+m+'][0]') || document.getElementById('arr_Result['+m+'][0]')) !== null) {
+        for (var n = 0; n < arr_stklist.length; n++) {
           if (arr_stklist[n] == "text") {
             y.push(document.getElementById('arr_TextAns['+m+']['+n+']').value);
           } else if (arr_stklist[n] == "level") {
@@ -231,13 +239,23 @@
           } else if (arr_stklist[n] == "sum") {
             // y.push(document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];);
             // document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];
+            arr_stklist.forEach(function(element, index){
+              if (element === "level") {
+                elm.push(index);
+              }
+            });
+            // console.log(elm);
+            // as inArray will return -1, if the element was not found.
+            if (jQuery.inArray("sum", arr_stklist) !== -1 || document.getElementById('arr_Result['+m+']['+n+']') !== null) {
+              // console.log(multiply(elm, y));
+              sum = multiply(elm, y).toString();
+              y.push(sum);
+              document.getElementById('arr_Result['+m+']['+n+']').innerHTML = sum;
+              elm.length = 0;
+            }
           }
           // console.log(y);
         }
-        // console.log(y[n-2] * y[n-1]);
-        sum = (y[n-2] * y[n-1]);
-        y.push(sum.toString());
-        document.getElementById('arr_Result['+m+']['+n+']').innerHTML = sum;
       }
       // console.log('y = ',y);
       // console.log('x before = ',x);
@@ -272,7 +290,7 @@
           success: function(data) {
             console.log(x);
             // similar behavior as an HTTP redirect
-            // window.location.replace('store_ans.php');
+            window.location.replace('view.php');
           }
         });
       }
