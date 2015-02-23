@@ -112,7 +112,7 @@
                                       <option value="4">4</option>\
                                       <option value="5">5</option></td>';
                   } else if (element == "sum") {
-                    form[index] = '<td><p id="arr_Result['+row+']['+index+']" class="form-control-static"></p></td>';
+                    form[index] = '<td><p id="arr_Result['+row+']['+index+']" class="form-control-static text-center"></p></td>';
                   }
                 });
                 row++;
@@ -141,16 +141,23 @@
                   echo $form[] = "<td><p id='arr_Result[][$key]' class='form-control-static'></p>";
                 }
               }*/
-            ?>
-            
-            
+            ?>            
           </tbody>
           </table>
-          <button type="button" class="btn btn-primary" id="addScnt"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Row</button>
-          <button type="button" class="btn btn-success" id="save">Save</button> 
-          <a href="index.php">
-          <button type="button" class="btn btn-default">Cancel</button>
-          </a>
+          <button type="button" class="btn btn-primary" id="addScnt">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Add Row
+          </button>
+          <div class="pull-right">
+            <a href="index.php">
+            <button type="button" class="btn btn-default">
+              Cancel
+            </button>
+            </a>
+            <button type="button" class="btn btn-success" id="save">
+              Save
+            </button> 
+          </div>
           <?php
             /*
             แบบ form horizon
@@ -209,6 +216,7 @@
     // x.length = 0; faster than x = [];
     // http://jsperf.com/array-destroy/151
     x.length = 0;
+    x.push(<?php echo json_encode($ac_id) ?>);
     var y = [],
         sum = 0;
     for (var m = 0; m < row; m++) {
@@ -252,5 +260,26 @@
   event.preventDefault();
   // document.getElementById('arr_Result').innerHTML = name*num;
   // document.getElementById('mymsg').innerHTML = name*num;
-  });
+  bootbox.confirm("คุณต้องการที่จะบันทึกข้อมูลหรือไม่?", function(result) {
+    if (result) {
+      console.log("User confirmed dialog");
+      var dataString = x;
+      if(x) {
+        jQuery.ajax({
+          type: "POST", // HTTP method POST or GET
+          url: "store_ans.php", //PHP Page where all your query will write
+          dataType: "text", // Data type, HTML, json etc.
+          data: dataString, //Form Field values
+          success: function(data) {
+            console.log(dataString);
+            // similar behavior as an HTTP redirect
+            // window.location.replace('view.php');
+          }
+        });
+      }
+    } else {
+      console.log("User declined dialog");
+    }
+  }); 
+});
 </script>

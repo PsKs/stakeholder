@@ -81,7 +81,7 @@
         <div class="navbar-collapse collapse sidebar-navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="index.php">Overview</a></li>
-            <li><a href="#">Activity</a></li>
+            <li><a href="view.php">View Activity</a></li>
             <li><a href="#">#</a></li>
             <li><a href="#">#</a></li>
           </ul>
