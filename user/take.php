@@ -284,7 +284,7 @@
       if(x) {
         jQuery.ajax({
           type: "POST", // HTTP method POST or GET
-          url: "store_ans.php", //PHP Page where all your query will write
+          url: "lib/store_ans.php", //PHP Page where all your query will write
           dataType: "text", // Data type, HTML, json etc.
           data: {'data':x},
           success: function(data) {

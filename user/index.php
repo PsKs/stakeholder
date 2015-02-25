@@ -93,7 +93,7 @@
 
   <div class="col-sm-9">
     <table data-toggle="table"
-           data-url="fetch_ac_user.php">
+           data-url="lib/fetch_ac_user.php">
       <thead>
         <tr>
           <th data-field="ac_no" data-formatter="noActivity" data-width="10" data-align="center">กิจกรรมที่</th>

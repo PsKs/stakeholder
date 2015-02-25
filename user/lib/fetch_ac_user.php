@@ -1,5 +1,5 @@
 <?php
-  require("../connect.php");
+  require("../../connect.php");
   $return_arr = array ();
   // $arr = array ();
   $view_activity = "select * from activity order by ac_id asc";

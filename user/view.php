@@ -1,24 +1,91 @@
 <?php
   session_start();//session starts here
   require("../connect.php");
-  // $ac_id = $_GET['ac'];
-  // $sql = "select activity.ac_no, activity.ac_name, stakeholder_list.stklist_id, stakeholder_list.stklist_name, stakeholder.stk_id, stakeholder_list.stklist_type
-  //         from stakeholder_list
-  //         left join stakeholder on (stakeholder.stklist_id = stakeholder_list.stklist_id) 
-  //         left join activity on (stakeholder.ac_id = activity.ac_id) 
-  //         where activity.ac_id = ".$ac_id;
-  // $run = mysqli_query($dbcon, $sql);
-  // while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
-  //   $ac_no = $rs['ac_no'];
-  //   $ac_name = $rs['ac_name'];
-  //   $arr_stklist_id[] = $rs['stklist_id'];
-  //   $arr_stklist_name[] = $rs['stklist_name'];
-  //   $arr_stklist_type[] = $rs['stklist_type'];
-  //   $arr_stk_id[] = $rs['stk_id'];
-  // }
-  // mysqli_free_result($run);
-  // mysqli_close($dbcon);
-  // $col_count = count($arr_stklist_id);
+  $user = 2;
+  $i = 0;
+  $stklist_name = array(array());
+  $stklist_id = array(array());
+  $sql = "SELECT answer.ac_id, answer.ans_detail, activity.ac_no, activity.ac_name, activity.position FROM answer LEFT JOIN activity ON answer.ac_id = activity.ac_id WHERE user_id = 2 ORDER BY answer.ac_id ASC";
+  $run = mysqli_query($dbcon, $sql);
+  while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
+    $ac_id[] = $rs['ac_id'];
+    $ac_no[] = $rs['ac_no'];
+    $ac_name[] = $rs['ac_name'];
+    $ac_pos[] = $rs['position'];
+    $ans_detail[] = $rs['ans_detail'];
+    $sql_2 = "SELECT stakeholder.stklist_id, stakeholder_list.stklist_name FROM stakeholder_list LEFT JOIN stakeholder ON (stakeholder.stklist_id = stakeholder_list.stklist_id) LEFT JOIN activity ON (stakeholder.ac_id = activity.ac_id) WHERE activity.ac_id = ".$rs['ac_id'];
+    $run_2 = mysqli_query($dbcon, $sql_2);
+    while ($rs_2 = mysqli_fetch_array($run_2, MYSQL_ASSOC)) {
+      $stklist_id[$i][] = $rs_2['stklist_id'];
+      $stklist_name[$i][] = $rs_2['stklist_name'];
+    }
+    $i++;
+  }
+  mysqli_free_result($run);
+  mysqli_free_result($run_2);
+  mysqli_close($dbcon);
+
+  $arr_stklist = array(array());
+  $arr_stklist = array_mapping($stklist_id, $stklist_name);
+  function array_mapping($array_keys, $array_values) {
+    /* 
+      Creates an array by using the values from the keys array as keys 
+      and the values from the values array as the corresponding values.
+    */
+    foreach ($array_values as $key => $value) {
+      $array_mapping[$key] = array_combine($array_keys[$key], $value);
+    }
+    return $array_mapping;
+  }
+  // print_r($arr_stklist);
+  // print_r($ac_pos[0]);
+  function split_String_in_Array($array) {
+    $i = 0;
+    $tmp = [];
+    while ($i < count($array)) {
+      /*
+        Find array pattern in var string using regex and split it.
+        Q&A from http://stackoverflow.com/questions/28708259/
+        and return array
+      */
+      if (preg_match_all('~"([^"\\\]*(?s:\\\.[^"\\\]*)*)"~', $array[$i], $match))
+      $tmp[$i] = $match[1];
+      $i++;
+    }
+    return $tmp;
+  }
+  /* 
+    ข้อมูลอยู่ในรูปแบบ Array string e.g. ["foo","bar","bra bra"]
+    นำค่าไปใช้งานยังไม่ได้ต้องแปลงเป็น Array ก่อนจึงสามารถ
+    เรียกใช้งานรายตัวได้ 
+    คืนค่าเป็น Array
+  */
+  $ac_pos = split_String_in_Array($ac_pos);
+  // print_r($ac_pos);
+  
+  function split_String_in_Array_ANS($array) {
+    /*
+      function นี้ต่างออกไปคือรูปแบบของ Array string เป็น [["a","b","c","d"],["e","f","g","h"]]
+      แต่งต่างจาก function split_String_in_Array ตรงที่มี "],[" คั่นกลาง
+      ทำให้ไม่สามารถใช้ function เดิมได้ แต่มีข้อดีคือใช้ "],[" เป็นตัวแบ่ง row ได้
+      ซึ่งเป็นที่การออกแบบ Dynamic table ในไฟล์ user/take.php
+      คืนค่าเป็น Array 3dimension ความหมายที่คืนค่าคือ Array[ac_id][row][col]
+      ของ user ที่ทำกิจกรรมทั้งหมด
+    */
+    $tmp = [];
+    $r = [];
+    foreach ($array as $key => $value) {
+      $tmp[$key] = explode('"],["', $value);
+      // print_r($tmp[$i]);
+      foreach ($tmp[$key] as $ky => $val) {
+        $r[$key][$ky] = explode('","', trim($val, '[]"'));
+        // print_r($r[$ky]);
+      }
+    }
+    return $r; 
+  }
+  $ans_detail = split_String_in_Array_ANS($ans_detail);
+  // print_r($ans_detail);   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,45 +179,63 @@
     Disable accordion behavior
   </button>
   <div class="panel-group " id="accordion">
-    <div class="panel panel-default" id="panel1">
+  <?php
+    foreach ($ac_id as $key => $ac) {
+  ?>  
+      <div class="panel panel-default" id="panel<?=$ac?>">
         <div class="panel-heading">
-             <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#collapseOne" 
-           href="#collapseOne" class="collapsed">
-          Collapsible Group Item #1
-        </a>
-      </h4>
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-target="#<?=$ac?>" 
+               href="#<?=$ac?>" class="collapsed">
+              กิจกรรมที่ <?=($ac_no[$key]." ".$ac_name[$key]); ?>
+            </a>
+          </h4>
         </div>
-        <div id="collapseOne" class="panel-collapse collapse">
-            <div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
+        <div id="<?=$ac?>" class="panel-collapse collapse">
+            <div class="panel-body">
+              <table data-toggle="table"
+                    data-height="300"
+                    data-url="lib/fetch_proceed.php">
+                <thead>
+                  <tr>
+                    <th data-field="ac_no" data-width="10" data-align="center">กิจกรรมที่</th>
+                    <th data-field="ac_name">ชื่อกิจกรรม</th>
+                    <th data-field="description">Description</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
         </div>
     </div>
-    <div class="panel panel-default" id="panel2">
+  <?php
+    }
+  ?>
+    <!-- <div class="panel panel-default" id="panel2">
         <div class="panel-heading">
              <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#collapseTwo" 
-           href="#collapseTwo" class="collapsed">
+        <a data-toggle="collapse" data-target="#2" 
+           href="#2" class="collapsed">
           Collapsible Group Item #2
         </a>
       </h4>
         </div>
-        <div id="collapseTwo" class="panel-collapse collapse">
+        <div id="2" class="panel-collapse collapse">
             <div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
         </div>
     </div>
     <div class="panel panel-default" id="panel3">
         <div class="panel-heading">
              <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#collapseThree"
-           href="#collapseThree" class="collapsed">
+        <a data-toggle="collapse" data-target="#3"
+           href="#3" class="collapsed">
           Collapsible Group Item #3
         </a>
       </h4>
         </div>
-        <div id="collapseThree" class="panel-collapse collapse">
+        <div id="3" class="panel-collapse collapse">
             <div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
         </div>
-    </div>
+    </div> -->
   </div>
   </div>
   </div><!-- /row -->

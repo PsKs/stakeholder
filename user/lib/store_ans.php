@@ -1,6 +1,6 @@
 <?php
   session_start();//session starts here
-  require("../connect.php");
+  require("../../connect.php");
   // print_r($_POST['data']);
   // Array
   //    (
@@ -39,7 +39,9 @@
       }
     }
     $ans_detail = json_encode($array_Ans, JSON_UNESCAPED_UNICODE);
-    $sql = "INSERT INTO answer (ans_detail, user_id, ac_id) VALUES ('$ans_detail', '2', '$ac_id')";
+    $sql = "INSERT INTO stakeholder.answer (ans_detail, user_id, ac_id) VALUES ('$ans_detail', '2', '$ac_id')";
+    $run = mysqli_query($dbcon, $sql);
+    $sql = "UPDATE stakeholder.activity SET status = 'activated' WHERE activity.ac_id = $ac_id;";
     $run = mysqli_query($dbcon, $sql);
     mysqli_close($dbcon);
   }
