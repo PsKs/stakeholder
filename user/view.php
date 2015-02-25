@@ -25,8 +25,6 @@
   mysqli_free_result($run_2);
   mysqli_close($dbcon);
 
-  $arr_stklist = array(array());
-  $arr_stklist = array_mapping($stklist_id, $stklist_name);
   function array_mapping($array_keys, $array_values) {
     /* 
       Creates an array by using the values from the keys array as keys 
@@ -37,8 +35,6 @@
     }
     return $array_mapping;
   }
-  // print_r($arr_stklist);
-  // print_r($ac_pos[0]);
   function split_String_in_Array($array) {
     $i = 0;
     $tmp = [];
@@ -54,15 +50,6 @@
     }
     return $tmp;
   }
-  /* 
-    ข้อมูลอยู่ในรูปแบบ Array string e.g. ["foo","bar","bra bra"]
-    นำค่าไปใช้งานยังไม่ได้ต้องแปลงเป็น Array ก่อนจึงสามารถ
-    เรียกใช้งานรายตัวได้ 
-    คืนค่าเป็น Array
-  */
-  $ac_pos = split_String_in_Array($ac_pos);
-  // print_r($ac_pos);
-  
   function split_String_in_Array_ANS($array) {
     /*
       function นี้ต่างออกไปคือรูปแบบของ Array string เป็น [["a","b","c","d"],["e","f","g","h"]]
@@ -84,8 +71,32 @@
     }
     return $r; 
   }
+  function move_position($array_position, $array_move) {
+    foreach ($array_position as $key => $value) {
+      foreach ($value as $ky => $val) {
+        $tmp[$key][] = $array_move[$key][$val];
+      }
+    }
+    // print_r($tmp);
+    return $tmp;
+  }
+
+  $arr_stklist = array(array());
+  $arr_stklist = array_mapping($stklist_id, $stklist_name);
+  // print_r($arr_stklist);
+  // print_r($ac_pos[0]);
+  /* 
+    ข้อมูลอยู่ในรูปแบบ Array string e.g. ["foo","bar","bra bra"]
+    นำค่าไปใช้งานยังไม่ได้ต้องแปลงเป็น Array ก่อนจึงสามารถ
+    เรียกใช้งานรายตัวได้ 
+    คืนค่าเป็น Array
+  */
+  $ac_pos = split_String_in_Array($ac_pos);
+  // print_r($arr_stklist);
+  // print_r($ac_pos);
+  $arr_stklist = move_position($ac_pos, $arr_stklist);
   $ans_detail = split_String_in_Array_ANS($ans_detail);
-  // print_r($ans_detail);   
+  // print_r($ans_detail);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -194,8 +205,8 @@
         <div id="<?=$ac?>" class="panel-collapse collapse">
             <div class="panel-body">
               <table data-toggle="table"
-                    data-height="300"
-                    data-url="lib/fetch_proceed.php">
+                     data-height="300"
+                     data-url="lib/fetch_proceed.php?ac=<?=$ac?>">
                 <thead>
                   <tr>
                     <th data-field="ac_no" data-width="10" data-align="center">กิจกรรมที่</th>
