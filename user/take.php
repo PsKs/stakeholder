@@ -102,11 +102,10 @@
               function gen_form() {
                 arr_stklist.forEach(function(element, index){
                   if (element == "text") {
-                    form[index] = '<td><input type="text" class="form-control" id="arr_TextAns['+row+']['+index+']"/></td>';
+                    form[index] = '<td><textarea class="form-control" rows="1" id="arr_TextAns['+row+']['+index+']"></textarea></td>';
                   } else if (element == "level") {
                     form[index] = '<td><select class="form-control" id="arr_LevelAns['+row+']['+index+']">\
-                                      <option value="0" selected="selected">SELECT</option>\
-                                      <option value="1">1</option>\
+                                      <option value="1" selected="selected">1</option>\
                                       <option value="2">2</option>\
                                       <option value="3">3</option>\
                                       <option value="4">4</option>\
