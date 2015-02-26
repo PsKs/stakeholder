@@ -92,9 +92,9 @@
     คืนค่าเป็น Array
   */
   $ac_pos = split_String_in_Array($ac_pos);
-  // print_r($arr_stklist);
   // print_r($ac_pos);
   $arr_stklist = move_position($ac_pos, $arr_stklist);
+  // print_r($arr_stklist);
   $ans_detail = split_String_in_Array_ANS($ans_detail);
   // print_r($ans_detail);
 ?>
@@ -107,6 +107,8 @@
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/bootstrap-table.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="../css/jquery.dataTables.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -159,6 +161,37 @@
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/bootstrap-table.js"></script>
   <script src="../js/bootbox.min.js"></script>
+  <!-- DataTables -->
+  <script src="../js/jquery.dataTables.js"></script>
+  <script>
+    function table(ac) {
+      $(document).ready(function() {
+        $('#show_answer'+ac).dataTable( {
+            "ajax": "lib/fetch_proceed.php?ac_id="+ac
+        });
+      });
+    }
+    $(function () {
+      var active = true;
+      $('#collapse-init').click(function () {
+          if (active) {
+              active = false;
+              $('.panel-collapse').collapse('show');
+              $('.panel-title').attr('data-toggle', '');
+              $(this).text('Enable accordion behavior');
+          } else {
+              active = true;
+              $('.panel-collapse').collapse('hide');
+              $('.panel-title').attr('data-toggle', 'collapse');
+              $(this).text('Disable accordion behavior');
+          }
+      });
+      // collapse แบบสลับกันออกมาโชว์ไม่มีการค้างไว้
+      // $('#accordion').on('show.bs.collapse', function () {
+      //     if (active) $('#accordion .in').collapse('hide');
+      // });
+    });
+  </script>
   <h1>Prototype User</h1>
   <div class="row">
   <div class="col-sm-2">
@@ -192,8 +225,8 @@
   <div class="panel-group " id="accordion">
   <?php
     foreach ($ac_id as $key => $ac) {
-  ?>  
-      <div class="panel panel-default" id="panel<?=$ac?>">
+  ?>
+    <div class="panel panel-default" id="panel<?=$ac?>">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse" data-target="#<?=$ac?>" 
@@ -203,74 +236,29 @@
           </h4>
         </div>
         <div id="<?=$ac?>" class="panel-collapse collapse">
-            <div class="panel-body">
-              <table data-toggle="table"
-                     data-height="300"
-                     data-url="lib/fetch_proceed.php?ac=<?=$ac?>">
-                <thead>
-                  <tr>
-                    <th data-field="ac_no" data-width="10" data-align="center">กิจกรรมที่</th>
-                    <th data-field="ac_name">ชื่อกิจกรรม</th>
-                    <th data-field="description">Description</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
+          <div class="panel-body">
+            <script type="text/javascript">
+              table(<?php echo $ac; ?>);
+            </script>
+            <table id="show_answer<?=$ac?>" class="display" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <?php
+                    foreach ($arr_stklist[$key] as $stklist_key => $stklist_value) {
+                      echo "<th>".$stklist_value."</th>";
+                    }
+                  ?>
+                </tr>
+              </thead> 
+            </table>
+          </div>
         </div>
     </div>
   <?php
     }
   ?>
-    <!-- <div class="panel panel-default" id="panel2">
-        <div class="panel-heading">
-             <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#2" 
-           href="#2" class="collapsed">
-          Collapsible Group Item #2
-        </a>
-      </h4>
-        </div>
-        <div id="2" class="panel-collapse collapse">
-            <div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
-        </div>
-    </div>
-    <div class="panel panel-default" id="panel3">
-        <div class="panel-heading">
-             <h4 class="panel-title">
-        <a data-toggle="collapse" data-target="#3"
-           href="#3" class="collapsed">
-          Collapsible Group Item #3
-        </a>
-      </h4>
-        </div>
-        <div id="3" class="panel-collapse collapse">
-            <div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</div>
-        </div>
-    </div> -->
   </div>
   </div>
   </div><!-- /row -->
   </body>
 </html>
-<script>
-  $(function () {
-    var active = true;
-    $('#collapse-init').click(function () {
-        if (active) {
-            active = false;
-            $('.panel-collapse').collapse('show');
-            $('.panel-title').attr('data-toggle', '');
-            $(this).text('Enable accordion behavior');
-        } else {
-            active = true;
-            $('.panel-collapse').collapse('hide');
-            $('.panel-title').attr('data-toggle', 'collapse');
-            $(this).text('Disable accordion behavior');
-        }
-    });
-    // collapse แบบสลับกันออกมาโชว์ไม่มีการค้างไว้
-    // $('#accordion').on('show.bs.collapse', function () {
-    //     if (active) $('#accordion .in').collapse('hide');
-    // });
-  });
-</script>

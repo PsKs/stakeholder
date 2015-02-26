@@ -1,26 +1,35 @@
 <?php
   session_start();//session starts here
   require("../../connect.php");
+  $ac_id = $_GET['ac_id'];
+  // $stk = $_GET['stk'];
+  $json_data = array ();
+  // print_r($_GET);
   $user = 2;
   $i = 0;
   $stklist_name = array(array());
-  $sql = "SELECT answer.ac_id, answer.ans_detail, activity.ac_no, activity.ac_name FROM answer LEFT JOIN activity ON answer.ac_id = activity.ac_id WHERE user_id = 2 ORDER BY answer.ac_id ASC";
+  $sql = "SELECT answer.ans_detail FROM answer WHERE user_id = 2 AND ac_id = $ac_id";
   $run = mysqli_query($dbcon, $sql);
   while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
-    $ac_id[] = $rs['ac_id'];
-    $ac_no[] = $rs['ac_no'];
-    $ac_name[] = $rs['ac_name'];
     $ans_detail[] = $rs['ans_detail'];
-    $sql_2 = "SELECT stakeholder_list.stklist_name FROM stakeholder_list LEFT JOIN stakeholder ON (stakeholder.stklist_id = stakeholder_list.stklist_id) LEFT JOIN activity ON (stakeholder.ac_id = activity.ac_id) WHERE activity.ac_id = ".$rs['ac_id'];
-    $run_2 = mysqli_query($dbcon, $sql_2);
-    while ($rs_2 = mysqli_fetch_array($run_2, MYSQL_ASSOC)) {
-      $stklist_name[$i][] = $rs_2['stklist_name'];
-    }
-    $i++;
   }
+  // $stk = explode(',', $stk);
+  // $stk = array_flip($stk);
+  // extract($stk);
+  $tmp = [];
+  $r = [];
+  foreach ($ans_detail as $key => $value) {
+    $tmp[$key] = explode('"],["', $value);
+    unset($ans_detail);
+    foreach ($tmp[$key] as $ky => $val) {
+      $ans_detail[] = explode('","', trim($val, '[]"'));
+    }
+  }
+  foreach ($ans_detail as $key => $value) {
+    $json_data['data'][] =  $value;
+  }
+  // print_r($json_data);
+  echo json_encode($json_data, JSON_UNESCAPED_UNICODE);
   mysqli_free_result($run);
-  mysqli_free_result($run_2);
   mysqli_close($dbcon);
-  print_r($ans_detail);
-  print_r($stklist_name);
 ?>
