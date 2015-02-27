@@ -106,9 +106,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/bootstrap-table.css" rel="stylesheet">
+    <!-- <link href="../css/bootstrap-table.css" rel="stylesheet"> -->
     <!-- DataTables CSS -->
-    <link href="../css/jquery.dataTables.css" rel="stylesheet">
+    <link href="../css/dataTables.bootstrap.css" rel="stylesheet">
+    <!-- <link href="../css/jquery.dataTables.css" rel="stylesheet"> -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -152,6 +153,9 @@
         .panel-heading a.collapsed:after {
           content:"\e080";
         }
+        .table {
+          font-size: 110%;
+        }
     </style>
   </head>
   <body>
@@ -164,7 +168,13 @@
   <!-- DataTables -->
   <script src="../js/jquery.dataTables.js"></script>
   <script>
+
     function table(ac) {
+      $.extend( $.fn.dataTable.defaults, {
+        "searching": false,
+        "paging": false,
+        "lengthMenu": [ [10, 20, 30, -1], [10, 20, 30, "All"] ]
+      });
       $(document).ready(function() {
         $('#show_answer'+ac).dataTable( {
             "ajax": "lib/fetch_proceed.php?ac_id="+ac
@@ -226,7 +236,7 @@
   <?php
     foreach ($ac_id as $key => $ac) {
   ?>
-    <div class="panel panel-default" id="panel<?=$ac?>">
+    <div class="panel panel-info" id="panel<?=$ac?>">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse" data-target="#<?=$ac?>" 
@@ -240,7 +250,7 @@
             <script type="text/javascript">
               table(<?php echo $ac; ?>);
             </script>
-            <table id="show_answer<?=$ac?>" class="display" cellspacing="0" width="100%">
+            <table id="show_answer<?=$ac?>" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
               <thead>
                 <tr>
                   <?php
