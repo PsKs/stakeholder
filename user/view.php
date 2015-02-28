@@ -148,13 +148,16 @@
           font-family:'Glyphicons Halflings';
           content:"\e114";
           float: right;
-          color: grey;
+          color: #808080;
         }
         .panel-heading a.collapsed:after {
           content:"\e080";
         }
         .table {
           font-size: 110%;
+        }
+        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+          background-color: #dcdcdc;
         }
     </style>
   </head>
@@ -188,12 +191,12 @@
               active = false;
               $('.panel-collapse').collapse('show');
               $('.panel-title').attr('data-toggle', '');
-              $(this).text('Enable accordion behavior');
+              $(this).text('ย่อทั้งหมด');
           } else {
               active = true;
               $('.panel-collapse').collapse('hide');
               $('.panel-title').attr('data-toggle', 'collapse');
-              $(this).text('Disable accordion behavior');
+              $(this).text('ขยายทั้งหมด');
           }
       });
       // collapse แบบสลับกันออกมาโชว์ไม่มีการค้างไว้
@@ -230,7 +233,7 @@
   <!-- End Menu -->
   <div class="col-sm-10">
   <button id="collapse-init" class="btn btn-primary pull-right">
-    Disable accordion behavior
+    ขยายทั้งหมด
   </button>
   <div class="panel-group " id="accordion">
   <?php
