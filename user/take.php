@@ -84,7 +84,8 @@
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/bootstrap-table.js"></script>
   <script src="../js/bootbox.min.js"></script>
-  <h1>Prototype User</h1>
+  <script> var x = []; </script>
+  <!-- <h1>Prototype User</h1> -->
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div class="panel panel-default">
@@ -183,12 +184,12 @@
   });
   // click handler
   $(document).on('click', '#save', function(event) {
-    ac_type = <?php echo json_encode($ac_type) ?>;
+    ac_type = <?php echo json_encode($ac_type); ?>;
     if (ac_type !== "swot-tows") {
       // x.length = 0; faster than x = [];
       // http://jsperf.com/array-destroy/151
       x.length = 0;
-      x.push(<?php echo json_encode($ac_id) ?>);
+      x.push(<?php echo json_encode($ac_id); ?>);
       var y = [],
           elm = [],
           sum = 0;
@@ -241,10 +242,12 @@
     // console.log(name);
     // console.log(num.map(Number));
     } else {
-      var name = $('textarea[id=text]').map(function(idx, elem) {
+      var arr_text = $('textarea[id=text]').map(function(idx, elem) {
         return $(elem).val();
       }).get();
-      console.log(name);
+      x.push(<?php echo json_encode($ac_id); ?>);
+      x.push(arr_text);
+      console.log(x);
     };
   event.preventDefault();
   // document.getElementById('arr_Result').innerHTML = name*num;

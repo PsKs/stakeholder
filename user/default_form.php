@@ -14,9 +14,8 @@
       var scntDiv = $('#p_scents'),
           i = $('#p_scents tr').size() + 1,
           row = 0,
-          arr_stklist = <?php echo json_encode($arr_stklist_type) ?>,
-          form = [],
-          x = [];
+          arr_stklist = <?php echo json_encode($arr_stklist_type); ?>,
+          form = [];
       function gen_form() {
         arr_stklist.forEach(function(element, index){
           if (element == "text") {

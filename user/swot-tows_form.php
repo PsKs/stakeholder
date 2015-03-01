@@ -7,8 +7,8 @@
     </tr>
     <tr>
       <td></td>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
     </tr>
     <tr>
       <th>Internal Strengths (S)</th>
@@ -16,9 +16,9 @@
       <th>ST <i>"Maxi-Mini Strategy"</i></th>
     </tr>
     <tr>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
     </tr>
     <tr>
       <th>Internal Weaknesses (W)</th>
@@ -26,9 +26,9 @@
       <th>WT <i>"Mini-Mini Strategy"</i></th>
     </tr>
     <tr>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
-      <td><textarea id="text" class="form-control" rows="3"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
+      <td><textarea id="text" class="form-control" rows="4"></textarea></td>
     </tr>
   </tbody>
 </table>
