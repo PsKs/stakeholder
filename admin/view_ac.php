@@ -81,13 +81,14 @@
     <table data-toggle="table"
            data-height="500"
            data-url="fetch_ac.php"
-           data-search="true">
+           data-search="true"
+           data-sort-order="desc">
         <thead>
         <tr>
-            <th data-field="no">กิจกรรมที่</th>
-            <th data-field="name">ชื่อกิจกรรม</th>
-            <th data-field="stakeholder_list">รายการ</th>
-            <th data-field="create">สร้างเมื่อ</th>
+            <th data-field="no" data-sortable="true">กิจกรรมที่</th>
+            <th data-field="name" data-sortable="true">ชื่อกิจกรรม</th>
+            <th data-field="stakeholder_list" data-sortable="true">รายการ</th>
+            <th data-field="create" data-sortable="true">สร้างเมื่อ</th>
             <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
         </tr>
         </thead>

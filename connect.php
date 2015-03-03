@@ -3,8 +3,7 @@
     $username = "root"; 
     $password = "tua878faeff"; 
     $host = "localhost"; 
-    $dbname = "stakeholder"; 
-    
+    $dbname = "stakeholder";   
     $dbcon = mysqli_connect($host, $username, $password);
     mysqli_set_charset($dbcon, "utf8");
     mysqli_select_db($dbcon, $dbname);  
