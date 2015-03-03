@@ -2,7 +2,7 @@
   session_start();//session starts here
   require("../connect.php");
   $ac_id = $_GET['ac'];
-  $sql = "select activity.ac_no, activity.ac_name, stakeholder_list.stklist_id, stakeholder_list.stklist_name, stakeholder.stk_id, stakeholder_list.stklist_type
+  $sql = "select activity.ac_no, activity.ac_name, activity.ac_type, stakeholder_list.stklist_id, stakeholder_list.stklist_name, stakeholder.stk_id, stakeholder_list.stklist_type
           from stakeholder_list
           left join stakeholder on (stakeholder.stklist_id = stakeholder_list.stklist_id) 
           left join activity on (stakeholder.ac_id = activity.ac_id) 
@@ -11,6 +11,7 @@
   while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
     $ac_no = $rs['ac_no'];
     $ac_name = $rs['ac_name'];
+    $ac_type = $rs['ac_type'];
     $arr_stklist_id[] = $rs['stklist_id'];
     $arr_stklist_name[] = $rs['stklist_name'];
     $arr_stklist_type[] = $rs['stklist_type'];
@@ -63,6 +64,17 @@
         .panel {  
           margin-top: 50px;
         }
+        table.table > tbody > tr > th {
+         text-align: center; 
+        }
+        table.table > tbody > tr:first-child > th:first-child {
+          background-color: #fff;
+          border: 0px solid #fff;
+        }
+        table.table > tbody > tr:first-child + tr > td:first-child {
+          background-color: #fff;
+          border: 0px solid #fff;
+        }
     </style>
   </head>
   <body>
@@ -72,7 +84,8 @@
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/bootstrap-table.js"></script>
   <script src="../js/bootbox.min.js"></script>
-  <h1>Prototype User</h1>
+  <script> var x = []; </script>
+  <!-- <h1>Prototype User</h1> -->
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div class="panel panel-default">
@@ -80,73 +93,25 @@
           <h4 class="panel-title">กิจกรรมที่ <?php echo $ac_no; ?>  <?php echo $ac_name; ?></h4> 
         </div>
         <div class="panel-body">
-          <table class="table table-striped table-bordered table-hover">
-          <thead>
-            <tr>
-            <?php
-              foreach ($arr_stklist_name as $key => $value) {
-                echo "<th class='text-center'>".$value."</th>";
-              }
-            ?>
-            <th class='col-md-1'></th>
-            </tr>
-          </thead>
-          <tbody id='p_scents'>
-            <script>
-              var scntDiv = $('#p_scents'),
-                  i = $('#p_scents tr').size() + 1,
-                  row = 0,
-                  arr_stklist = <?php echo json_encode($arr_stklist_type) ?>,
-                  form = [],
-                  x = [];
-              function gen_form() {
-                arr_stklist.forEach(function(element, index){
-                  if (element == "text") {
-                    form[index] = '<td><textarea class="form-control" rows="1" id="arr_TextAns['+row+']['+index+']"></textarea></td>';
-                  } else if (element == "level") {
-                    form[index] = '<td><select class="form-control" id="arr_LevelAns['+row+']['+index+']">\
-                                      <option value="1" selected="selected">1</option>\
-                                      <option value="2">2</option>\
-                                      <option value="3">3</option>\
-                                      <option value="4">4</option>\
-                                      <option value="5">5</option></td>';
-                  } else if (element == "sum") {
-                    form[index] = '<td><p id="arr_Result['+row+']['+index+']" class="form-control-static text-center"></p></td>';
-                  }
-                });
-                row++;
-                return form;
-              }
-              function get_form() {
-                scntDiv.append('<tr>'+gen_form()+'</tr>');
-              }            
-            </script>
-            <?php
-              echo  '<script type="text/javascript">',
-                    'get_form();',
-                    '</script>';
-              /*foreach ($arr_stklist_type as $key => $value) {
-                if ($value == "text") {
-                  echo $form[] = "<td><input type='text' class='form-control' name='arr_TextAns[][$key]'/>";
-                } elseif ($value == "level") {
-                  echo $form[] = "<td><select class='form-control' name='arr_LevelAns[][$key]'>
-                                  <option value='-'>SELECT</option>
-                                  <option value='1'>1</option>
-                                  <option value='2'>2</option>
-                                  <option value='3'>3</option>
-                                  <option value='4'>4</option>
-                                  <option value='5'>5</option>";
-                } else {
-                  echo $form[] = "<td><p id='arr_Result[][$key]' class='form-control-static'></p>";
-                }
-              }*/
-            ?>            
-          </tbody>
-          </table>
+          <form class="form">
+          <?php
+            if ($ac_type === "swot-tows") {
+              require ("swot-tows_form.php");
+            } else {
+              require ("default_form.php");
+            }
+          ?>
+          </form>
+          <?php
+            if ($ac_type !== "swot-tows") {
+          ?>
           <button type="button" class="btn btn-primary" id="addScnt">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add Row
           </button>
+          <?php
+            }
+          ?>
           <div class="pull-right">
             <a href="index.php">
             <button type="button" class="btn btn-default">
@@ -219,61 +184,71 @@
   });
   // click handler
   $(document).on('click', '#save', function(event) {
-    // x.length = 0; faster than x = [];
-    // http://jsperf.com/array-destroy/151
-    x.length = 0;
-    x.push(<?php echo json_encode($ac_id) ?>);
-    var y = [],
-        elm = [],
-        sum = 0;
-    for (var m = 0; m < row; m++) {
-      y = [];
-      // console.log('x before loop = ',x);
-      if (document.getElementById(('arr_TextAns['+m+'][0]') || document.getElementById('arr_LevelAns['+m+'][0]') || document.getElementById('arr_Result['+m+'][0]')) !== null) {
-        for (var n = 0; n < arr_stklist.length; n++) {
-          if (arr_stklist[n] == "text") {
-            y.push(document.getElementById('arr_TextAns['+m+']['+n+']').value);
-          } else if (arr_stklist[n] == "level") {
-            y.push(document.getElementById('arr_LevelAns['+m+']['+n+']').value);
-          } else if (arr_stklist[n] == "sum") {
-            // y.push(document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];);
-            // document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];
-            arr_stklist.forEach(function(element, index){
-              if (element === "level") {
-                elm.push(index);
+    ac_type = <?php echo json_encode($ac_type); ?>;
+    if (ac_type !== "swot-tows") {
+      // x.length = 0; faster than x = [];
+      // http://jsperf.com/array-destroy/151
+      x.length = 0;
+      x.push(<?php echo json_encode($ac_id); ?>);
+      var y = [],
+          elm = [],
+          sum = 0;
+      for (var m = 0; m < row; m++) {
+        y = [];
+        // console.log('x before loop = ',x);
+        if (document.getElementById(('arr_TextAns['+m+'][0]') || document.getElementById('arr_LevelAns['+m+'][0]') || document.getElementById('arr_Result['+m+'][0]')) !== null) {
+          for (var n = 0; n < arr_stklist.length; n++) {
+            if (arr_stklist[n] == "text") {
+              y.push(document.getElementById('arr_TextAns['+m+']['+n+']').value);
+            } else if (arr_stklist[n] == "level") {
+              y.push(document.getElementById('arr_LevelAns['+m+']['+n+']').value);
+            } else if (arr_stklist[n] == "sum") {
+              // y.push(document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];);
+              // document.getElementById('arr_Result['+m+']['+n+']').innerHTML = x[m][n];
+              arr_stklist.forEach(function(element, index){
+                if (element === "level") {
+                  elm.push(index);
+                }
+              });
+              // console.log(elm);
+              // as inArray will return -1, if the element was not found.
+              if (jQuery.inArray("sum", arr_stklist) !== -1 || document.getElementById('arr_Result['+m+']['+n+']') !== null) {
+                // console.log(multiply(elm, y));
+                sum = multiply(elm, y).toString();
+                y.push(sum);
+                document.getElementById('arr_Result['+m+']['+n+']').innerHTML = sum;
+                elm.length = 0;
               }
-            });
-            // console.log(elm);
-            // as inArray will return -1, if the element was not found.
-            if (jQuery.inArray("sum", arr_stklist) !== -1 || document.getElementById('arr_Result['+m+']['+n+']') !== null) {
-              // console.log(multiply(elm, y));
-              sum = multiply(elm, y).toString();
-              y.push(sum);
-              document.getElementById('arr_Result['+m+']['+n+']').innerHTML = sum;
-              elm.length = 0;
             }
+            // console.log(y);
           }
-          // console.log(y);
         }
+        // console.log('y = ',y);
+        // console.log('x before = ',x);
+        x.push(y);
+        // console.log('x after = ',x);
       }
-      // console.log('y = ',y);
-      // console.log('x before = ',x);
-      x.push(y);
-      // console.log('x after = ',x);
-    }
-    x = x.filter(isNotEmtry);
-    console.log('final = ',x);
-    // var name = $('input[id^=arr_TextAns]').map(function(idx, elem) {
-    //   return $(elem).val();
-    // }).get();
-    // var num = $('select[id^=arr_LevelAns]').map(function(idx, elem) {
-    //   return $(elem).val();
-    // }).get();
-    // var toType = function(obj) {
-    //   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
-    // }
-  // console.log(name);
-  // console.log(num.map(Number));
+      x = x.filter(isNotEmtry);
+      console.log('final = ',x);
+      // var name = $('input[id^=arr_TextAns]').map(function(idx, elem) {
+      //   return $(elem).val();
+      // }).get();
+      // var num = $('select[id^=arr_LevelAns]').map(function(idx, elem) {
+      //   return $(elem).val();
+      // }).get();
+      // var toType = function(obj) {
+      //   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+      // }
+    // console.log(name);
+    // console.log(num.map(Number));
+    } else {
+      var arr_text = $('textarea[id=text]').map(function(idx, elem) {
+        return $(elem).val();
+      }).get();
+      x.push(<?php echo json_encode($ac_id); ?>);
+      x.push(arr_text);
+      console.log(x);
+    };
   event.preventDefault();
   // document.getElementById('arr_Result').innerHTML = name*num;
   // document.getElementById('mymsg').innerHTML = name*num;

@@ -106,6 +106,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/dataTables.colvis.jqueryui.css" rel="stylesheet">
+    <link href="../css/dataTables.colvis.min.css" rel="stylesheet">
     <!-- <link href="../css/bootstrap-table.css" rel="stylesheet"> -->
     <!-- DataTables CSS -->
     <link href="../css/dataTables.bootstrap.css" rel="stylesheet">
@@ -170,34 +172,32 @@
   <script src="../js/bootbox.min.js"></script>
   <!-- DataTables -->
   <script src="../js/jquery.dataTables.js"></script>
+  <script src="../js/dataTables.colVis.min.js"></script>
   <script>
-
-    function table(ac) {
-      $.extend( $.fn.dataTable.defaults, {
-        "searching": false,
-        "paging": false,
-        "lengthMenu": [ [10, 20, 30, -1], [10, 20, 30, "All"] ]
-      });
+    function table(ac) {  
       $(document).ready(function() {
-        $('#show_answer'+ac).dataTable( {
-            "ajax": "lib/fetch_proceed.php?ac_id="+ac
+        var table = $('#show_answer'+ac).DataTable( {
+          "ajax": "lib/fetch_proceed.php?ac_id="+ac,
+          "dom": 'C<"clear">lfrtip',
+          "paging": false,
+          "searching": false
         });
       });
     }
     $(function () {
       var active = true;
       $('#collapse-init').click(function () {
-          if (active) {
-              active = false;
-              $('.panel-collapse').collapse('show');
-              $('.panel-title').attr('data-toggle', '');
-              $(this).text('ย่อทั้งหมด');
-          } else {
-              active = true;
-              $('.panel-collapse').collapse('hide');
-              $('.panel-title').attr('data-toggle', 'collapse');
-              $(this).text('ขยายทั้งหมด');
-          }
+        if (active) {
+          active = false;
+          $('.panel-collapse').collapse('show');
+          $('.panel-title').attr('data-toggle', '');
+          $(this).text('ย่อทั้งหมด');
+        } else {
+          active = true;
+          $('.panel-collapse').collapse('hide');
+          $('.panel-title').attr('data-toggle', 'collapse');
+          $(this).text('ขยายทั้งหมด');
+        }
       });
       // collapse แบบสลับกันออกมาโชว์ไม่มีการค้างไว้
       // $('#accordion').on('show.bs.collapse', function () {
