@@ -7,6 +7,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Pongsakorn Sonto">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <title>Risk Management System</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/default.css">
@@ -36,7 +39,7 @@
         CUSTOM BTN VALUES
       ************************/
       .btn {
-          padding: 14px 24px;
+          padding: 10px 16px;
           border: 0 none;
           font-weight: 700;
           letter-spacing: 1px;
@@ -46,7 +49,6 @@
           outline: 0 none;
       }
     </style>
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -60,7 +62,9 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/modernizr.custom.js"></script>
- <div class="bs-docs-header" id="content">
+  <script src="../js/classie.js"></script>
+  <!-- JS Plug-in -->
+  <div class="bs-docs-header" id="content">
     <div class="container">
       <h1>Admin</h1>
       <p>Risk Management System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
@@ -75,7 +79,7 @@
       <h3>Menu</h3>
       <a href="index.php">Overview</a>
       <a href="create_ac.php">Create Activity</a>
-      <a href="view_ac.php">Show Activity</a>
+      <a href="view_ac.php">View Activity</a>
       <a href="conclude.php">Conclude</a>
     </nav>
   </div>
@@ -84,14 +88,12 @@
   <div class="col-sm-9">
   </div>
   </body>
-  <script src="../js/classie.js"></script>
   <script>
-    var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
-        body = document.body;
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+      body = document.body;
     showLeft.onclick = function() {
-      classie.toggle( this, 'active' );
-      classie.toggle( menuLeft, 'cbp-spmenu-open' );
-      disableOther( 'showLeft' );
+      classie.toggle(this, 'active');
+      classie.toggle(menuLeft, 'cbp-spmenu-open');
     };
   </script>
 </html>
