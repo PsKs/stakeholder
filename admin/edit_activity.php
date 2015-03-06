@@ -122,7 +122,7 @@
 
             /* Send the data using post and put the results in a div */
             $.ajax({
-              url: "test2.php",
+              url: "/lib/update_ac.php",
               type: "POST",
               dataType: "text",
               data: values,

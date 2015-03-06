@@ -4,7 +4,7 @@
   // print_r($_POST['data']);
   // Array
   //    (
-  //        [0] => 1   <------------- ac_id
+  //        [0] => 1   <-------------------------- ac_id
   //        [1] => Array
   //            (
   //                [0] => test_1
@@ -39,7 +39,7 @@
       }
     }
     $ans_detail = json_encode($array_Ans, JSON_UNESCAPED_UNICODE);
-    $sql = "INSERT INTO stakeholder.answer (ac_id, user_id, ans_detail) VALUES ('$ac_id', '2', '$ans_detail')";
+    $sql = "INSERT INTO stakeholder.answer (ac_id, user_id, ans_detail) VALUES ('$ac_id', '3', '$ans_detail')";
     $run = mysqli_query($dbcon, $sql);
     $sql = "UPDATE stakeholder.activity SET status = 'activated' WHERE activity.ac_id = $ac_id;";
     $run = mysqli_query($dbcon, $sql);

@@ -69,7 +69,7 @@
             <li class="active"><a href="index.php">Overview</a></li>
             <li><a href="create_ac.php">Create Activity</a></li>
             <li><a href="view_ac.php">Show Activity</a></li>
-            <li><a href="#">Summary</a></li>
+            <li><a href="conclude.php">Conclude</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -80,22 +80,20 @@
   <div class="col-sm-9">
     <table data-toggle="table"
            data-height="500"
-           data-url="fetch_ac.php"
+           data-url="lib/fetch_ac.php"
            data-search="true"
            data-sort-order="desc">
         <thead>
         <tr>
-            <th data-field="no" data-sortable="true">กิจกรรมที่</th>
+            <th data-field="no" data-align="center" data-sortable="true">กิจกรรมที่</th>
             <th data-field="name" data-sortable="true">ชื่อกิจกรรม</th>
             <th data-field="stakeholder_list" data-sortable="true">รายการ</th>
-            <th data-field="create" data-sortable="true">สร้างเมื่อ</th>
-            <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">Action</th>
+            <th data-field="created" data-sortable="true">สร้างขึ้นเมื่อ</th>
+            <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">แก้ไข/ลบ</th>
         </tr>
         </thead>
     </table>
     <script>
-      var myvar = <?php require("fetch_sk.php"); ?>;
-      // console.log(myvar);
       function actionFormatter(value, row, index) {
         return [
             '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
@@ -111,7 +109,7 @@
               // alert('You click edit icon, row: ' + JSON.stringify(row));
               console.log(value, row, index);
               // console.log(myvar[0].stklist_id);
-              window.location.href = "test.php?ac="+row.id;
+              window.location.href = "edit_activity.php?ac="+row.id;
               /*bootbox.dialog({
                   title: "แก้ไขกิจกรรม",
                   message: 

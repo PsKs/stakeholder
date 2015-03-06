@@ -1,6 +1,6 @@
 <?php
   session_start();
-  require("../connect.php");
+  require("../../connect.php");
   if (!empty($_POST['noActivity']) && !empty($_POST['nameActivity'])) {
     $ac_id = $_POST['ac_id'];
     $noActivity = $_POST['noActivity'];

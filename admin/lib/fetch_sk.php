@@ -1,5 +1,5 @@
 <?php
-  require("../connect.php");
+  require("../../connect.php");
   $return_arr = array ();
   $sql = "select stklist_id, stklist_name from stakeholder_list";
   $run = mysqli_query($dbcon, $sql);

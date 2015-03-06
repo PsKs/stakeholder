@@ -1,5 +1,5 @@
 <?php  
-  session_start();//session starts here 
+  session_start();//session starts here  
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-table.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,6 +37,23 @@
             padding-top: 12px;
             padding-bottom: 12px;
           }
+          .ml10 {
+            margin-left: 10px;
+          }
+        }
+        a:link {
+          text-decoration: none;
+          color: black;
+        }
+        a:visited {
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: none;
+          color: #aaaaaa;
+        }
+        a:active {
+          text-decoration: none;
         }
     </style>
   </head>
@@ -44,6 +62,8 @@
   <script src="../js/jquery-1.11.2.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/bootstrap-table.js"></script>
+  <script src="../js/bootbox.min.js"></script>
   <h1>Prototype Admin</h1>
   <div class="row">
   <div class="col-sm-2">
@@ -72,6 +92,44 @@
   <!-- End Menu -->
 
   <div class="col-sm-9">
+    <table data-toggle="table"
+           data-height="500"
+           data-url="lib/fetch_groups.php"
+           data-search="true"
+           data-sort-order="desc">
+      <thead>
+        <tr>
+          <th data-field="group_name" data-formatter="group_name" data-width="10" data-align="center" data-sortable="true">ชื่อกลุ่ม</th>        
+          <th data-field="count_user" data-formatter="count_user" data-width="10" data-align="center" data-sortable="true">จำนวนสมาชิก</th>
+          <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents" data-width="10" data-align="center">ดูกิจกรรม</th>
+        </tr>
+      </thead>
+    </table>
+    <script type="text/javascript">
+      function group_name(value, row, index) {
+        return '<a href="group_detail.php">' + row.group_name + '</a>';
+      }
+      function actionFormatter(value, row, index) {
+        return [
+          '<a class="take ml10" href="javascript:void(0)" title="ดูรายละเอียดกิจกรรม">',
+          '<i class="glyphicon glyphicon-pencil"></i>',
+          '</a>'
+        ].join('');
+      }
+      window.actionEvents = {
+        'click .take': function (e, value, row, index) {
+          // console.log(value, row, index);
+          window.location.href =  "group_detail.php";
+          var dataString = 'group_id=' + row.group_id;
+          jQuery.ajax ({
+            type: "POST", // HTTP method POST or GET
+            url: "group_detail.php", //PHP Page where all your query will write
+            dataType: "text", // Data type, HTML, json etc.
+            data: dataString, //Form Field values
+          });
+        }          
+      }
+    </script>
   </div>
   </body>
 </html>

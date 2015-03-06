@@ -17,7 +17,6 @@
   // $stk = array_flip($stk);
   // extract($stk);
   $tmp = [];
-  $r = [];
   foreach ($ans_detail as $key => $value) {
     $tmp[$key] = explode('"],["', $value);
     unset($ans_detail);

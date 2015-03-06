@@ -64,7 +64,7 @@
             <li class="active"><a href="index.php">Overview</a></li>
             <li><a href="create_ac.php">Create Activity</a></li>
             <li><a href="view_ac.php">Show Activity</a></li>
-            <li><a href="#">Summary</a></li>
+            <li><a href="conclude.php">Conclude</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

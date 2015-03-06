@@ -1,19 +1,29 @@
 <?php
+  // print_r($_POST['group_id']);
   session_start();//session starts here
   require("../connect.php");
-  $user = 2;
+  $group_id = 1;
   $i = 0;
   $stklist_name = array(array());
   $stklist_id = array(array());
-  $sql = "SELECT answer.ac_id, answer.ans_detail, activity.ac_no, activity.ac_name, activity.position FROM answer LEFT JOIN activity ON answer.ac_id = activity.ac_id WHERE user_id = 2 ORDER BY answer.ac_id ASC";
+  $sql = "SELECT composite_grp_act.ac_id, activity.ac_no, activity.ac_name, activity.position
+          FROM composite_grp_act
+          LEFT OUTER JOIN activity
+          ON composite_grp_act.ac_id = activity.ac_id
+          WHERE composite_grp_act.group_id = ".$group_id;
   $run = mysqli_query($dbcon, $sql);
   while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
     $ac_id[] = $rs['ac_id'];
     $ac_no[] = $rs['ac_no'];
     $ac_name[] = $rs['ac_name'];
     $ac_pos[] = $rs['position'];
-    $ans_detail[] = $rs['ans_detail'];
-    $sql_2 = "SELECT stakeholder.stklist_id, stakeholder_list.stklist_name FROM stakeholder_list LEFT JOIN stakeholder ON (stakeholder.stklist_id = stakeholder_list.stklist_id) LEFT JOIN activity ON (stakeholder.ac_id = activity.ac_id) WHERE activity.ac_id = ".$rs['ac_id'];
+    $sql_2 = "SELECT stakeholder.stklist_id, stakeholder_list.stklist_name 
+              FROM stakeholder_list 
+              LEFT JOIN stakeholder 
+              ON (stakeholder.stklist_id = stakeholder_list.stklist_id) 
+              LEFT JOIN activity 
+              ON (stakeholder.ac_id = activity.ac_id) 
+              WHERE activity.ac_id = ".$rs['ac_id'];
     $run_2 = mysqli_query($dbcon, $sql_2);
     while ($rs_2 = mysqli_fetch_array($run_2, MYSQL_ASSOC)) {
       $stklist_id[$i][] = $rs_2['stklist_id'];
@@ -22,7 +32,7 @@
         // string contains only english letters & digits & ()""
         $stklist_name[$i][] = short_name($rs_2['stklist_name'], 15);    
       } else {
-         $stklist_name[$i][] = $rs_2['stklist_name'];
+        $stklist_name[$i][] = $rs_2['stklist_name'];
       }
     }
     $i++;
@@ -103,17 +113,19 @@
   $arr_stklist = array_mapping($stklist_id, $stklist_name);
   // print_r($arr_stklist);
   // print_r($ac_pos[0]);
+  
   /* 
-    ข้อมูลอยู่ในรูปแบบ Array string e.g. ["foo","bar","bra bra"]
-    นำค่าไปใช้งานยังไม่ได้ต้องแปลงเป็น Array ก่อนจึงสามารถ
-    เรียกใช้งานรายตัวได้ 
-    คืนค่าเป็น Array
+  * ข้อมูลอยู่ในรูปแบบ Array string e.g. ["foo","bar","bra bra"]
+  * นำค่าไปใช้งานยังไม่ได้ต้องแปลงเป็น Array ก่อนจึงสามารถ
+  * เรียกใช้งานรายตัวได้ 
+  * คืนค่าเป็น Array
   */
+  
   $ac_pos = split_String_in_Array($ac_pos);
   // print_r($ac_pos);
   $arr_stklist = move_position($ac_pos, $arr_stklist);
   // print_r($arr_stklist);
-  $ans_detail = split_String_in_Array_ANS($ans_detail);
+  // $ans_detail = split_String_in_Array_ANS($ans_detail);
   // print_r($ans_detail);
 ?>
 <!DOCTYPE html>
@@ -128,8 +140,8 @@
     <link href="../css/dataTables.colvis.min.css" rel="stylesheet">
     <!-- <link href="../css/bootstrap-table.css" rel="stylesheet"> -->
     <!-- DataTables CSS -->
-    <link href="../css/dataTables.bootstrap.css" rel="stylesheet">
-    <!-- <link href="../css/jquery.dataTables.css" rel="stylesheet"> -->
+    <!-- <link href="../css/dataTables.bootstrap.css" rel="stylesheet"> -->
+    <link href="../css/jquery.dataTables.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -173,12 +185,17 @@
         .panel-heading a.collapsed:after {
           content:"\e080";
         }
-        .table {
+        .table-group {
           font-size: 110%;
         }
-        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-          background-color: #dcdcdc;
+        .hover tbody tr:hover td, .table-hover tbody tr:hover th {
+          background-color: #fcfcfc;
         }
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
+        td, th { text-align: left; }
     </style>
   </head>
   <body>
@@ -192,13 +209,51 @@
   <script src="../js/jquery.dataTables.js"></script>
   <script src="../js/dataTables.colVis.min.js"></script>
   <script>
-    function table(ac) {  
+    function table(group, ac) {  
       $(document).ready(function() {
         var table = $('#show_answer'+ac).DataTable( {
-          "ajax": "lib/fetch_proceed.php?ac_id="+ac,
+          "ajax": "lib/fetch_ans_group.php?group_id="+group+"&ac_id="+ac,
           "dom": 'C<"clear">lfrtip',
-          "paging": false,
-          "searching": false
+          "paging": true,
+          "searching": false,
+          "columnDefs": [
+            { "visible": false, "targets": 0 }
+        ],
+        "order": [[0, 'asc']],
+        "displayLength": 10,
+        "drawCallback": function (settings) {
+          var api = this.api();
+          var rows = api.rows({page:'current'}).nodes();
+          var last = null;
+          api.column(0, {page:'current'}).data().each( function (group, i) {
+            if (last !== group) {
+              $(rows).eq(i).before (
+                '<tr class="group"><td colspan="8">'+group+'</td></tr>'
+              );
+              last = group;
+            }
+          });
+        }
+    });
+    // Order by the grouping
+    $('#show_answer'+ac).on('click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if (currentOrder[0] === 0 && currentOrder[1] === 'asc') {
+            table.order([0, 'desc']).draw();
+        } else {
+            table.order([0, 'asc']).draw();
+        }
+          // "fnRowCallback": function(nRow, aData) {
+          //   var id = aData.slice(-1).pop(); // ID is returned by the server as part of the data
+          //   var $nRow = $(nRow); // cache the row wrapped up in jQuery
+          //   if (id == "2") {
+          //     $nRow.css({"background-color": "#FFCDD2"})
+          //   }
+          //   else if (id == "3") {
+          //     $nRow.css({"background-color": "#E1BEE7"})
+          //   }
+          //   return nRow
+          // }
         });
       });
     }
@@ -223,7 +278,7 @@
       // });
     });
   </script>
-  <h1>Prototype User</h1>
+  <h1>Prototype Admin</h1>
   <div class="row">
   <div class="col-sm-2">
     <div class="sidebar-nav">
@@ -240,9 +295,9 @@
         <div class="navbar-collapse collapse sidebar-navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="index.php">Overview</a></li>
-            <li><a href="view.php">View Activity</a></li>
-            <li><a href="#">#</a></li>
-            <li><a href="#">#</a></li>
+            <li><a href="create_ac.php">Create Activity</a></li>
+            <li><a href="view_ac.php">Show Activity</a></li>
+            <li><a href="conclude.php">Conclude</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -269,11 +324,14 @@
         <div id="<?=$ac?>" class="panel-collapse collapse">
           <div class="panel-body">
             <script type="text/javascript">
-              table(<?php echo $ac; ?>);
+              var group_id = (<?php echo $group_id; ?>);
+              var ac_id = (<?php echo $ac; ?>);
+              table(group_id, ac_id);
             </script>
-            <table id="show_answer<?=$ac?>" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+            <table id="show_answer<?=$ac?>" class="table-group hover compact order-column" cellspacing="0" width="100%">
               <thead>
                 <tr>
+                  <th>สมาชิก</th>
                   <?php
                     foreach ($arr_stklist[$key] as $stklist_key => $stklist_value) {
                       echo "<th>".$stklist_value."</th>";
