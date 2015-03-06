@@ -173,7 +173,7 @@
             margin-left: 10px;
           }
         }
-        .panel {  
+        .panel {
           margin-top: 50px;
         }
         .panel-heading a:after {
@@ -183,17 +183,17 @@
           color: #808080;
         }
         .panel-heading a.collapsed:after {
-          content:"\e080";
+          content:"\e079";
         }
         .table-group {
           font-size: 110%;
         }
-        .hover tbody tr:hover td, .table-hover tbody tr:hover th {
+        /*.hover tbody tr:hover td, .table-hover tbody tr:hover th {
           background-color: #fcfcfc;
-        }
+        }*/
         tr.group,
         tr.group:hover {
-            background-color: #ddd !important;
+            background-color: #2196F3 !important;
         }
         td, th { text-align: left; }
     </style>

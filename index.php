@@ -38,7 +38,7 @@
     <div class="bs-docs-header" id="content">
       <div class="container">
         <h1>Risk Management Systems</h1>
-        <p>Atwise Consulting Co., Ltd. Success Management Company.</p>
+        <p>Atwise Consulting Co., Ltd.</p><p>Success Management Company.</p>
         <div id="carbonads-container"><div class="carbonad"><div id="azcarbon"></div></div></div>
       </div>
     </div>
