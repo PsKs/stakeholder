@@ -92,7 +92,7 @@
     </div>
   </div>
   <div class="row">
-  <div class="col-sm-2"> 
+  <div class="col-md-2"> 
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
       <h3>Menu</h3>
       <a href="index.php">Overview</a>
@@ -103,7 +103,7 @@
   </div>
   <!-- End Menu -->
 
-  <div class="col-sm-9">
+  <div class="col-md-9">
     <table data-toggle="table"
            data-height="400"
            data-url="lib/fetch_groups.php"
@@ -111,15 +111,16 @@
            data-sort-order="desc">
       <thead>
         <tr>
-          <th data-field="group_name" data-formatter="group_name" data-width="10" data-align="center" data-sortable="true">ชื่อกลุ่ม</th>        
-          <th data-field="count_user" data-formatter="count_user" data-width="10" data-align="center" data-sortable="true">จำนวนสมาชิก</th>
+          <th data-field="group_name" data-formatter="group_name" data-events="actionEvents" data-width="10" data-align="center" data-sortable="true">ลูกค้า</th>        
+          <th data-field="count_user" data-formatter="count_user" data-width="10" data-align="center" data-sortable="true">จำนวนกลุ่ม</th>
+          <th data-field="created" data-formatter="created" data-width="10" data-align="center" data-sortable="true">สร้างเมื่อ</th>
           <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents" data-width="10" data-align="center">กิจกรรม</th>
         </tr>
       </thead>
     </table>
     <script type="text/javascript">
       function group_name(value, row, index) {
-        return '<a class="gName" href="group_detail.php">' + row.group_name + '</a>';
+        return '<a class="gName" href="javascript:void(0)">' + row.group_name + '</a>';
       }
       function actionFormatter(value, row, index) {
         return [
@@ -129,15 +130,19 @@
         ].join('');
       }
       window.actionEvents = {
-        'click .view': function (e, value, row, index) {
+        'click .view, .gName': function (e, value, row, index) {
           // console.log(value, row, index);
-          window.location.href =  "group_detail.php";
           var dataString = 'group_id=' + row.group_id;
           jQuery.ajax ({
             type: "POST", // HTTP method POST or GET
             url: "group_detail.php", //PHP Page where all your query will write
             dataType: "text", // Data type, HTML, json etc.
             data: dataString, //Form Field values
+            complete: function(data){
+              console.log(dataString);
+              //ส่งแบบ GET ไปก่อน
+              window.location = 'group_detail.php?' + dataString;
+            }
           });
         }          
       }

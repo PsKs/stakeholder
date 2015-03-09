@@ -66,7 +66,7 @@
   <script src="../js/bootbox.min.js"></script>
   <h1>Prototype User</h1>
   <div class="row">
-  <div class="col-sm-2">
+  <div class="col-md-2">
     <div class="sidebar-nav">
       <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
@@ -91,7 +91,7 @@
   </div>
   <!-- End Menu -->
 
-  <div class="col-sm-9">
+  <div class="col-md-9">
     <table data-toggle="table"
            data-url="lib/fetch_ac_user.php">
       <thead>

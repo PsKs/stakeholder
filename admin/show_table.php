@@ -66,11 +66,15 @@
   <!-- JS Plug-in -->
   <div class="bs-docs-header" id="content">
     <div class="container">
-      <h1>Admin</h1>
-      <p>Risk Management System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
+      <h3>
+      <?php
+        echo $_GET['group_id'];
+        echo $_GET['activity_id'];
+      ?>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">
       <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
       </button>
+      </h3>
     </div>
   </div>
   <div class="row">
@@ -86,6 +90,7 @@
   <!-- End Menu -->
 
   <div class="col-md-9">
+    <!-- Content Body -->
   </div>
   </body>
   <script>

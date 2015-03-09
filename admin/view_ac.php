@@ -88,7 +88,7 @@
     </div>
   </div>
   <div class="row">
-  <div class="col-sm-2"> 
+  <div class="col-md-2"> 
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
       <h3>Menu</h3>
       <a href="index.php">Overview</a>
@@ -99,7 +99,7 @@
   </div>
   <!-- End Menu -->
 
-  <div class="col-sm-9">
+  <div class="col-md-9">
     <table data-toggle="table"
            data-height="500"
            data-url="lib/fetch_ac.php"

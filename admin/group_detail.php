@@ -1,46 +1,9 @@
 <?php
   // print_r($_POST['group_id']);
   session_start();//session starts here
-  require("../connect.php");
-  $group_id = 1;
-  $i = 0;
-  $stklist_name = array(array());
-  $stklist_id = array(array());
-  $sql = "SELECT composite_grp_act.ac_id, activity.ac_no, activity.ac_name, activity.position
-          FROM composite_grp_act
-          LEFT OUTER JOIN activity
-          ON composite_grp_act.ac_id = activity.ac_id
-          WHERE composite_grp_act.group_id = ".$group_id;
-  $run = mysqli_query($dbcon, $sql);
-  while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
-    $ac_id[] = $rs['ac_id'];
-    $ac_no[] = $rs['ac_no'];
-    $ac_name[] = $rs['ac_name'];
-    $ac_pos[] = $rs['position'];
-    $sql_2 = "SELECT stakeholder.stklist_id, stakeholder_list.stklist_name 
-              FROM stakeholder_list 
-              LEFT JOIN stakeholder 
-              ON (stakeholder.stklist_id = stakeholder_list.stklist_id) 
-              LEFT JOIN activity 
-              ON (stakeholder.ac_id = activity.ac_id) 
-              WHERE activity.ac_id = ".$rs['ac_id'];
-    $run_2 = mysqli_query($dbcon, $sql_2);
-    while ($rs_2 = mysqli_fetch_array($run_2, MYSQL_ASSOC)) {
-      $stklist_id[$i][] = $rs_2['stklist_id'];
-      if (preg_match('/[^A-Za-z0-9]*[()"]/', $rs_2['stklist_name'])) // '/[^a-z\d]/i' should also work.
-      {
-        // string contains only english letters & digits & ()""
-        $stklist_name[$i][] = short_name($rs_2['stklist_name'], 15);    
-      } else {
-        $stklist_name[$i][] = $rs_2['stklist_name'];
-      }
-    }
-    $i++;
-  }
-  mysqli_free_result($run);
-  mysqli_free_result($run_2);
-  mysqli_close($dbcon);
-
+  $group_id = $_GET['group_id'];
+  require("lib/fetch_group_detail.php");
+  
   function short_name($str, $limit) {
     // Make sure a small or negative limit doesn't cause a negative length for substr().
     if ($limit < 3) {
@@ -296,12 +259,12 @@
           active = false;
           $('.panel-collapse').collapse('show');
           $('.panel-title').attr('data-toggle', '');
-          $(this).text('ย่อทั้งหมด');
+          $(this).text('Collapse All');
         } else {
           active = true;
           $('.panel-collapse').collapse('hide');
           $('.panel-title').attr('data-toggle', 'collapse');
-          $(this).text('ขยายทั้งหมด');
+          $(this).text('Expand All');
         }
       });
       // collapse แบบสลับกันออกมาโชว์ไม่มีการค้างไว้
@@ -320,7 +283,7 @@
     </div>
   </div>
   <div class="row">
-  <div class="col-sm-2"> 
+  <div class="col-md-2"> 
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
       <h3>Menu</h3>
       <a href="index.php">Overview</a>
@@ -331,12 +294,48 @@
   </div>
   <!-- End Menu -->
 
-  <div class="col-sm-1 col-sm-offset-10" style="margin-top: -30px;">
-    <button type="button" class="btn btn-primary pull-right" id="collapse-init">
-      ขยายทั้งหมด
+  <div class="col-md-10 col-md-offset-1">
+    <a href="conclude.php"><button type="button" class="btn btn-primary" title="Back to Groups">Customers View</button>
+    </a>
+    <!-- Split button -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary">Activities View</button>
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="activities dropdown-menu" role="menu">
+        <?php
+          foreach ($ac_id as $key => $ac) {
+            echo "<li><a href='#' value='".$ac."'>กิจกรรมที่ ".$ac."</a></li>";
+          }
+        ?>
+        <!-- <li class="divider"></li> -->
+        <!-- <li><a href="#">Separated link</a></li> -->
+      </ul>
+    </div>
+    <!-- Split button -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary">Groups View</button>
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <?php
+          foreach ($ac_id as $key => $ac) {
+            echo "<li><a href='#'></a></li>";
+          }
+        ?>
+        <!-- <li class="divider"></li> -->
+        <!-- <li><a href="#">Separated link</a></li> -->
+      </ul>
+    </div>
+    <button type="button" class="btn btn-info pull-right" id="collapse-init">
+      Expand All
     </button>
   </div>
-  <div class="col-sm-10 col-sm-offset-1" style="margin-top: -20px;">
+  <div class="col-md-10 col-md-offset-1" style="margin-top: -20px;">
   <div class="panel-group " id="accordion">
   <?php
     foreach ($ac_id as $key => $ac) {
@@ -378,13 +377,29 @@
   </div>
   </div>
   </div><!-- /row -->
+  <script>
+    $('ul.activities a').click(function(event){
+      event.preventDefault();
+      var ac = $(this).attr('value');
+      var dataStr = 'group_id=' + group_id + '&activity_id=' + ac;
+      console.log(dataStr);
+      $.ajax({
+        type: 'POST',
+        url: 'show_table.php',
+        data: dataStr,
+        complete: function(data){
+          console.log("DONE");
+          //ส่งแบบ GET ไปก่อน
+          window.location = 'show_table.php?' + dataStr;
+        }
+      });
+    });
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        body = document.body;
+    showLeft.onclick = function() {
+      classie.toggle(this, 'active');
+      classie.toggle(menuLeft, 'cbp-spmenu-open');
+    };
+  </script>
   </body>
 </html>
-<script>
-  var menuLeft = document.getElementById('cbp-spmenu-s1'),
-    body = document.body;
-  showLeft.onclick = function() {
-    classie.toggle(this, 'active');
-    classie.toggle(menuLeft, 'cbp-spmenu-open');
-  };
-</script>

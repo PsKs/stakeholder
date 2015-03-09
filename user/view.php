@@ -209,12 +209,12 @@
           active = false;
           $('.panel-collapse').collapse('show');
           $('.panel-title').attr('data-toggle', '');
-          $(this).text('ย่อทั้งหมด');
+          $(this).text('Collapse All');
         } else {
           active = true;
           $('.panel-collapse').collapse('hide');
           $('.panel-title').attr('data-toggle', 'collapse');
-          $(this).text('ขยายทั้งหมด');
+          $(this).text('Expand All');
         }
       });
       // collapse แบบสลับกันออกมาโชว์ไม่มีการค้างไว้
@@ -225,7 +225,7 @@
   </script>
   <h1>Prototype User</h1>
   <div class="row">
-  <div class="col-sm-2">
+  <div class="col-md-2">
     <div class="sidebar-nav">
       <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
@@ -249,9 +249,9 @@
     </div>
   </div>
   <!-- End Menu -->
-  <div class="col-sm-10">
+  <div class="col-md-10">
   <button id="collapse-init" class="btn btn-primary pull-right">
-    ขยายทั้งหมด
+    Expand All
   </button>
   <div class="panel-group " id="accordion">
   <?php
