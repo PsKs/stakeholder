@@ -87,13 +87,13 @@
 
   <div class="col-md-9">
   </div>
-  </body>
   <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
-      body = document.body;
+        body = document.body;
     showLeft.onclick = function() {
       classie.toggle(this, 'active');
       classie.toggle(menuLeft, 'cbp-spmenu-open');
     };
   </script>
+  </body>
 </html>

@@ -3,74 +3,6 @@
   session_start();//session starts here
   $group_id = $_GET['group_id'];
   require("lib/fetch_group_detail.php");
-  
-  function short_name($str, $limit) {
-    // Make sure a small or negative limit doesn't cause a negative length for substr().
-    if ($limit < 3) {
-      $limit = 3;
-    }
-    // Now truncate the string if it is over the limit.
-    if (strlen($str) > $limit) {
-      return substr($str, 0, $limit - 3) . '...';
-    } else {
-      return $str;
-    }
-  }
-  function array_mapping($array_keys, $array_values) {
-    /* 
-      Creates an array by using the values from the keys array as keys 
-      and the values from the values array as the corresponding values.
-    */
-    foreach ($array_values as $key => $value) {
-      $array_mapping[$key] = array_combine($array_keys[$key], $value);
-    }
-    return $array_mapping;
-  }
-  function split_String_in_Array($array) {
-    $i = 0;
-    $tmp = [];
-    while ($i < count($array)) {
-      /*
-        Find array pattern in var string using regex and split it.
-        Q&A from http://stackoverflow.com/questions/28708259/
-        and return array
-      */
-      if (preg_match_all('~"([^"\\\]*(?s:\\\.[^"\\\]*)*)"~', $array[$i], $match))
-      $tmp[$i] = $match[1];
-      $i++;
-    }
-    return $tmp;
-  }
-  function split_String_in_Array_ANS($array) {
-    /*
-      function นี้ต่างออกไปคือรูปแบบของ Array string เป็น [["a","b","c","d"],["e","f","g","h"]]
-      แต่งต่างจาก function split_String_in_Array ตรงที่มี "],[" คั่นกลาง
-      ทำให้ไม่สามารถใช้ function เดิมได้ แต่มีข้อดีคือใช้ "],[" เป็นตัวแบ่ง row ได้
-      ซึ่งเป็นที่การออกแบบ Dynamic table ในไฟล์ user/take.php
-      คืนค่าเป็น Array 3dimension ความหมายที่คืนค่าคือ Array[ac_id][row][col]
-      ของ user ที่ทำกิจกรรมทั้งหมด
-    */
-    $tmp = [];
-    $r = [];
-    foreach ($array as $key => $value) {
-      $tmp[$key] = explode('"],["', $value);
-      // print_r($tmp[$i]);
-      foreach ($tmp[$key] as $ky => $val) {
-        $r[$key][$ky] = explode('","', trim($val, '[]"'));
-        // print_r($r[$ky]);
-      }
-    }
-    return $r; 
-  }
-  function move_position($array_position, $array_move) {
-    foreach ($array_position as $key => $value) {
-      foreach ($value as $ky => $val) {
-        $tmp[$key][] = $array_move[$key][$val];
-      }
-    }
-    // print_r($tmp);
-    return $tmp;
-  }
 
   $arr_stklist = array(array());
   $arr_stklist = array_mapping($stklist_id, $stklist_name);
@@ -204,10 +136,10 @@
   <script src="../js/jquery.dataTables.js"></script>
   <script src="../js/dataTables.colVis.min.js"></script>
   <script>
-    function table(group, ac) {  
+    function table(group, ac, us, type) {  
       $(document).ready(function() {
         var table = $('#show_answer'+ac).DataTable( {
-          "ajax": "lib/fetch_ans_group.php?group_id="+group+"&ac_id="+ac,
+          "ajax": "lib/fetch_ans_group.php?group_id=" + group + "&ac_id=" + ac + "&user_id=" + us + "&type=" + type,
           "dom": 'C<"clear">lfrtip',
           "paging": true,
           "searching": false,
@@ -299,32 +231,30 @@
     </a>
     <!-- Split button -->
     <div class="btn-group">
-      <button type="button" class="btn btn-primary">Activities View</button>
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
+        Activities View <span class="caret"></span>
       </button>
       <ul class="activities dropdown-menu" role="menu">
         <?php
-          foreach ($ac_id as $key => $ac) {
-            echo "<li><a href='#' value='".$ac."'>กิจกรรมที่ ".$ac."</a></li>";
+          $arr = fetch_activities_list($group_id);
+          for ($i=0; $i < count($arr); $i++) { 
+            echo "<li><a href='#' value='".$arr['ac_id'][$i]."'>กิจกรรมที่ ".$arr['ac_no'][$i]." - ".$arr['ac_name'][$i]."</a></li>";
           }
         ?>
-        <!-- <li class="divider"></li> -->
-        <!-- <li><a href="#">Separated link</a></li> -->
+        <li class="divider"></li>
+        <li><a href="#" >สรุปกิจกรรมทั้งหมด</a></li>
       </ul>
     </div>
     <!-- Split button -->
     <div class="btn-group">
-      <button type="button" class="btn btn-primary">Groups View</button>
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
+        Groups View <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu">
+      <ul class="users dropdown-menu" role="menu">
         <?php
-          foreach ($ac_id as $key => $ac) {
-            echo "<li><a href='#'></a></li>";
+          $arr = fetch_users_list($group_id);
+          for ($i=0; $i < count($arr); $i++) { 
+            echo "<li><a href='#' value='".$arr['user_id'][$i]."'>".$arr['name'][$i]."</a></li>";
           }
         ?>
         <!-- <li class="divider"></li> -->
@@ -336,40 +266,40 @@
     </button>
   </div>
   <div class="col-md-10 col-md-offset-1" style="margin-top: -20px;">
-  <div class="panel-group " id="accordion">
+  <div class="panel-group" id="accordion">
   <?php
     foreach ($ac_id as $key => $ac) {
   ?>
     <div class="panel panel-primary" id="panel<?=$ac?>">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-target="#<?=$ac?>" 
-               href="#<?=$ac?>" class="collapsed">
-              กิจกรรมที่ <?=($ac_no[$key]." ".$ac_name[$key]); ?>
-            </a>
-          </h4>
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-target="#<?=$ac?>" 
+             href="#<?=$ac?>" class="collapsed">
+            กิจกรรมที่ <?=($ac_no[$key]." ".$ac_name[$key]); ?>
+          </a>
+        </h4>
+      </div>
+      <div id="<?=$ac?>" class="panel-collapse collapse">
+        <div class="panel-body">
+          <script type="text/javascript">
+            var group_id = (<?php echo $group_id; ?>);
+            var ac_id = (<?php echo $ac; ?>);
+            table(group_id, ac_id, 0, "activity");
+          </script>
+          <table id="show_answer<?=$ac?>" class="table-group hover compact order-column" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th>กลุ่ม</th>
+                <?php
+                  foreach ($arr_stklist[$key] as $stklist_key => $stklist_value) {
+                    echo "<th>".$stklist_value."</th>";
+                  }
+                ?>
+              </tr>
+            </thead> 
+          </table>
         </div>
-        <div id="<?=$ac?>" class="panel-collapse collapse">
-          <div class="panel-body">
-            <script type="text/javascript">
-              var group_id = (<?php echo $group_id; ?>);
-              var ac_id = (<?php echo $ac; ?>);
-              table(group_id, ac_id);
-            </script>
-            <table id="show_answer<?=$ac?>" class="table-group hover compact order-column" cellspacing="0" width="100%">
-              <thead>
-                <tr>
-                  <th>สมาชิก</th>
-                  <?php
-                    foreach ($arr_stklist[$key] as $stklist_key => $stklist_value) {
-                      echo "<th>".$stklist_value."</th>";
-                    }
-                  ?>
-                </tr>
-              </thead> 
-            </table>
-          </div>
-        </div>
+      </div>
     </div>
   <?php
     }
@@ -382,6 +312,22 @@
       event.preventDefault();
       var ac = $(this).attr('value');
       var dataStr = 'group_id=' + group_id + '&activity_id=' + ac;
+      console.log(dataStr);
+      $.ajax({
+        type: 'POST',
+        url: 'show_table.php',
+        data: dataStr,
+        complete: function(data){
+          console.log("DONE");
+          //ส่งแบบ GET ไปก่อน
+          window.location = 'show_table.php?' + dataStr;
+        }
+      });
+    });
+    $('ul.users a').click(function(event){
+      event.preventDefault();
+      var usr = $(this).attr('value');
+      var dataStr = 'group_id=' + group_id + '&user_id=' + usr;
       console.log(dataStr);
       $.ajax({
         type: 'POST',

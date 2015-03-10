@@ -23,8 +23,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Pongsakorn Sonto">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <title>Risk Management System</title>
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,9 +35,41 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style type="text/css">  
-      .panel {  
-          margin-top: 50px;
+    <style type="text/css">
+      /***********************
+        OUTLINE BUTTONS
+      ************************/
+      .btn.outline {
+          background: none;
+          padding: 5px 5px;
+      }
+      .btn-primary.outline {
+          border: 2px solid #fff;
+          color: #fff;
+      }
+      .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
+          color: #CCCCCC;
+          border-color: #CCCCCC;
+      }
+      .btn-primary.outline:active, .btn-primary.outline.active {
+          border-color: #A5A5A5;
+          color: #A5A5A5;
+      }
+      /***********************
+        CUSTOM BTN VALUES
+      ************************/
+      .btn {
+          padding: 10px 16px;
+          border: 0 none;
+          font-weight: 700;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+      }
+      .btn:focus, .btn:active:focus, .btn.active:focus {
+          outline: 0 none;
+      }
+      .panel {
+        margin-top: 50px;
       }  
     </style>  
   </head>
@@ -42,7 +77,7 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="../js/jquery-1.11.2.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="../js/bootstrap.min.js"></script>  
+  <script src="../js/bootstrap.min.js"></script>
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-default">
           <div class="panel-heading">

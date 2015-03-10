@@ -3,21 +3,41 @@
   require("../../connect.php");
   $group_id = $_GET['group_id'];
   $ac_id = $_GET['ac_id'];
+  $u_id = $_GET['user_id'];
+  $type = $_GET['type'];
   $json_data = array ();
-  // print_r($_GET);
+  $ans_detail = array();
+  $user_id = array();
+  $user_name = array();
+  // print_r($_GET['type']);
   $i = 0;
   $stklist_name = array(array());
-  $sql = "SELECT users.name, answer.user_id, answer.ans_detail, activity.position 
-  FROM composite_grp_act 
-  LEFT OUTER JOIN answer 
-  ON composite_grp_act.ac_id = answer.ac_id 
-  LEFT OUTER JOIN activity  
-  ON answer.ac_id = activity.ac_id
-  LEFT OUTER JOIN users
-  ON answer.user_id = users.user_id 
-  WHERE composite_grp_act.group_id = $group_id
-  AND answer.ac_id = $ac_id
-  ORDER BY answer.user_id ASC";
+  if ($type === "activity") {
+    $sql = "SELECT users.name, answer.user_id, answer.ans_detail, activity.position 
+            FROM composite_grp_act 
+            LEFT OUTER JOIN answer 
+            ON composite_grp_act.ac_id = answer.ac_id 
+            LEFT OUTER JOIN activity  
+            ON answer.ac_id = activity.ac_id
+            LEFT OUTER JOIN users
+            ON answer.user_id = users.user_id 
+            WHERE composite_grp_act.group_id = $group_id
+            AND answer.ac_id = $ac_id
+            ORDER BY answer.user_id ASC";
+  } elseif ($type === "user") {
+    $sql = "SELECT users.name, answer.user_id, answer.ans_detail, activity.position 
+            FROM composite_grp_act 
+            LEFT OUTER JOIN answer 
+            ON composite_grp_act.ac_id = answer.ac_id 
+            LEFT OUTER JOIN activity  
+            ON answer.ac_id = activity.ac_id
+            LEFT OUTER JOIN users
+            ON answer.user_id = users.user_id 
+            WHERE composite_grp_act.group_id = $group_id
+            AND answer.ac_id = $ac_id
+            AND answer.user_id = $u_id
+            ORDER BY answer.user_id ASC";
+  }
   $run = mysqli_query($dbcon, $sql);
   while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
     $ans_detail[] = $rs['ans_detail'];

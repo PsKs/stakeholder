@@ -111,10 +111,11 @@
            data-sort-order="desc">
       <thead>
         <tr>
-          <th data-field="group_name" data-formatter="group_name" data-events="actionEvents" data-width="10" data-align="center" data-sortable="true">ลูกค้า</th>        
-          <th data-field="count_user" data-formatter="count_user" data-width="10" data-align="center" data-sortable="true">จำนวนกลุ่ม</th>
-          <th data-field="created" data-formatter="created" data-width="10" data-align="center" data-sortable="true">สร้างเมื่อ</th>
-          <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents" data-width="10" data-align="center">กิจกรรม</th>
+          <th data-field="group_name" data-formatter="group_name" data-events="actionEvents" data-width="400" data-align="center" data-sortable="true">ลูกค้า</th>        
+          <th data-field="count_user" data-formatter="count_user" data-align="center" data-sortable="true">จำนวนกลุ่ม</th>
+          <th data-field="count_ac" data-formatter="count_ac" data-align="center" data-sortable="true">จำนวนกิจกรรม</th>
+          <th data-field="created" data-formatter="created" data-align="center" data-sortable="true">สร้างเมื่อ</th>
+          <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents" data-align="center">ดูกิจกรรม</th>
         </tr>
       </thead>
     </table>
@@ -148,13 +149,13 @@
       }
     </script>
   </div>
+  <script>
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+        body = document.body;
+    showLeft.onclick = function() {
+      classie.toggle(this, 'active');
+      classie.toggle(menuLeft, 'cbp-spmenu-open');
+    };
+  </script>
   </body>
 </html>
-<script>
-  var menuLeft = document.getElementById('cbp-spmenu-s1'),
-    body = document.body;
-  showLeft.onclick = function() {
-    classie.toggle(this, 'active');
-    classie.toggle(menuLeft, 'cbp-spmenu-open');
-  };
-</script>
