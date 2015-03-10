@@ -2,13 +2,14 @@
   session_start();//session starts here
   require("../../connect.php");
   $ac_id = $_GET['ac_id'];
+  $user_id = $_SESSION['user_id'];
   // $stk = $_GET['stk'];
   $json_data = array ();
   // print_r($_GET);
   $user = 2;
   $i = 0;
   $stklist_name = array(array());
-  $sql = "SELECT answer.ans_detail FROM answer WHERE user_id = 2 AND ac_id = $ac_id";
+  $sql = "SELECT answer.ans_detail FROM answer WHERE user_id = $user_id AND ac_id = $ac_id";
   $run = mysqli_query($dbcon, $sql);
   while ($rs = mysqli_fetch_array($run, MYSQL_ASSOC)) {
     $ans_detail[] = $rs['ans_detail'];

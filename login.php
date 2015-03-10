@@ -11,7 +11,6 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <div id="alert"></div>
       <div class="login-panel panel panel-success">
         <div class="panel-heading">
           <h3 class="panel-title">Sign In</h3>  
@@ -31,7 +30,8 @@
             </fieldset>  
           </form>  
         </div>  
-      </div>  
+      </div>
+      <div id="alert"></div>
     </div>  
   </div>  
 </div>   
@@ -45,9 +45,10 @@ require("connect.php");
     if (mysqli_num_rows($result)) {
       $res_group = mysqli_fetch_array($result);
       //here session is used and value of $user_name store in $_SESSION.
-      $_SESSION['username'] = $user_name;
+      $_SESSION['username'] = $res_group['username'];
       $_SESSION['user_type'] = $res_group['user_type'];
       $_SESSION['user_id'] = $res_group['user_id'];
+      $_SESSION['name'] = $res_group['name'];
       
       // Free result set
       mysqli_free_result($result);

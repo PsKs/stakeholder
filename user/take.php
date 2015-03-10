@@ -96,9 +96,9 @@
           <form class="form">
           <?php
             if ($ac_type === "swot-tows") {
-              require ("swot-tows_form.php");
+              require ("form_swot-tows.php");
             } else {
-              require ("default_form.php");
+              require ("form_default.php");
             }
           ?>
           </form>
