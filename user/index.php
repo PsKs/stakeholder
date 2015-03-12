@@ -19,6 +19,10 @@
     <!-- Bootstrap Table -->
     <link rel="stylesheet" href="../css/bootstrap-table.css">
     <style type="text/css">
+      html, body {
+        width: auto !important;
+        overflow-x: hidden !important;
+      }
       /***********************
         OUTLINE BUTTONS
       ************************/

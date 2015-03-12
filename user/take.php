@@ -164,10 +164,9 @@
   }
   $('#addScnt').click(function() {   
     scntDiv.append('<tr>'+gen_form()+
-                    '<td>\
+                    '<td class="text-center">\
                       <button type="button" class="btn btn-warning btn-sm" id="remScnt">\
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
-                          Remove\
                       </button>\
                     </td>\
                   </tr>');

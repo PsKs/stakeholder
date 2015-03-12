@@ -1,4 +1,4 @@
-<div class="table-scrol col-xs-7 col-xs-offset-2">  
+<div class="table-scrol col-md-7 col-md-offset-2">  
     <h1 align="center">Select lists</h1>  
 <div class="table-responsive"><!--this is used for responsive display in mobile and other devices-->    
     <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">

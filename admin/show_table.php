@@ -14,6 +14,7 @@
     $flag = "all_user";
   }
   require("lib/fetch_group_detail.php");
+  
   $arr_stklist = array(array());
   $arr_stklist = array_mapping($stklist_id, $stklist_name);
   // print_r($arr_stklist);
@@ -52,52 +53,56 @@
     <link rel="stylesheet" href="../css/dataTables.colvis.jqueryui.css">
     <link rel="stylesheet" href="../css/dataTables.colvis.min.css">
     <style type="text/css">
+      html, body {
+        width: auto !important;
+        overflow-x: hidden !important;
+      }
       /***********************
         OUTLINE BUTTONS
       ************************/
       .btn.outline {
-          background: none;
-          padding: 5px 5px;
+        background: none;
+        padding: 5px 5px;
       }
       .btn-primary.outline {
-          border: 2px solid #fff;
-          color: #fff;
+        border: 2px solid #fff;
+        color: #fff;
       }
       .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-          color: #CCCCCC;
-          border-color: #CCCCCC;
+        color: #CCCCCC;
+        border-color: #CCCCCC;
       }
       .btn-primary.outline:active, .btn-primary.outline.active {
-          border-color: #A5A5A5;
-          color: #A5A5A5;
+        border-color: #A5A5A5;
+        color: #A5A5A5;
       }
       /***********************
         CUSTOM BTN VALUES
       ************************/
       .btn {
-          padding: 10px 16px;
-          border: 0 none;
-          font-weight: 700;
-          letter-spacing: 1px;
-          text-transform: uppercase;
+        padding: 10px 16px;
+        border: 0 none;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
       .btn:focus, .btn:active:focus, .btn.active:focus {
-          outline: 0 none;
+        outline: 0 none;
       }
       .btn:focus, .btn:active:focus, .btn.active:focus {
-          outline: 0 none;
+        outline: 0 none;
       }
       .panel {
         margin-top: 50px;
       }
-      .table-group {
+      .table {
         font-size: 110%;
       }
       /*.hover tbody tr:hover td, .table-hover tbody tr:hover th {
         background-color: #fcfcfc;
       }*/
       tr.group, tr.group:hover {
-          background-color: #c5bad6 !important;
+        background-color: #c5bad6 !important;
       }
       td, th { 
         text-align: left; 
@@ -117,6 +122,11 @@
       }
       a:focus, a:hover {
         text-decoration: none;
+      }
+      @media (max-width: 800px) { /* Small tablet landscape (800x600) */
+        .table {
+          font-size: 70%;
+        }
       }
     </style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -144,7 +154,7 @@
       $(document).ready(function() {
         var table = $('#show_answer'+ac).DataTable( {
           "ajax": "lib/fetch_ans_group.php?group_id=" + group + "&ac_id=" + ac + "&user_id=" + us + "&type=" + type,
-          // "dom": 'C<"clear">lfrtip', // Show / hide columns
+          "dom": 'C<"clear">lfrtip', // Show / hide columns
           "paging": true,
           "searching": true,
           "columnDefs": [
@@ -187,7 +197,7 @@
         } elseif ($flag === "choose_activity") {
           echo "สรุปกิจกรรมที่ ".$ac_no[0]." ".$ac_name[0];
         } elseif ($flag === "choose_user") {
-          echo "สุรปกิจกรรมของกลุ่ม ".$ac_username[0];
+          echo "สรุปกิจกรรมของกลุ่ม ".$ac_username[0];
         }
       ?>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">
@@ -196,19 +206,16 @@
       </h3>
     </div>
   </div>
-  <div class="row">
-  <div class="col-md-2"> 
-    <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-      <h3>Menu</h3>
-      <a href="index.php">Overview</a>
-      <a href="create_ac.php">Create Activity</a>
-      <a href="view_ac.php">View Activity</a>
-      <a href="conclude.php">Conclude</a>
-    </nav>
-  </div>
+  <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+    <h3>Menu</h3>
+    <a href="index.php">Overview</a>
+    <a href="create_ac.php">Create Activity</a>
+    <a href="view_ac.php">View Activity</a>
+    <a href="conclude.php">Conclude</a>
+  </nav>
   <!-- End Menu -->
 
-  <div class="col-md-10 col-md-offset-1" style="margin-top: -50px;">
+  <div class="col-md-12" style="margin-top: -50px;">
   <div class="panel-group " id="accordion">
   <?php
     foreach ($ac_id as $key => $ac) {
@@ -236,7 +243,7 @@
               table(group_id, ac_id, u_id, "user");
             }
           </script>
-          <table id="show_answer<?=$ac?>" class="table-group hover compact order-column" cellspacing="0" width="100%">
+          <table id="show_answer<?=$ac?>" class="table hover compact order-column" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>กลุ่ม</th>
@@ -258,7 +265,7 @@
   ?>
   </div>
   </div>
-  <div class="col-md-10 col-md-offset-1">
+  <div class="col-md-4 col-md-offset-4">
     <!-- Split button -->
     <div class="btn-group dropup">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -292,7 +299,8 @@
       </ul>
     </div>
   </div>
-  </div><!-- /row -->
+  <div class="col-md-4 col-md-offset-4">
+  </div>
   <script>
     $('ul.activities a').click(function(event){
       event.preventDefault();

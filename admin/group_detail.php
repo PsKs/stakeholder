@@ -2,6 +2,10 @@
   // print_r($_POST['group_id']);
   session_start();//session starts here
   $group_id = $_GET['group_id'];
+  $count_ac = $_GET['count_ac'];
+  if ($count_ac === '0') {
+    header('Location: conclude.php');
+  }
   require("lib/fetch_group_detail.php");
 
   $arr_stklist = array(array());
@@ -46,33 +50,33 @@
         OUTLINE BUTTONS
       ************************/
       .btn.outline {
-          background: none;
-          padding: 5px 5px;
+        background: none;
+        padding: 5px 5px;
       }
       .btn-primary.outline {
-          border: 2px solid #fff;
-          color: #fff;
+        border: 2px solid #fff;
+        color: #fff;
       }
       .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-          color: #CCCCCC;
-          border-color: #CCCCCC;
+        color: #CCCCCC;
+        border-color: #CCCCCC;
       }
       .btn-primary.outline:active, .btn-primary.outline.active {
-          border-color: #A5A5A5;
-          color: #A5A5A5;
+        border-color: #A5A5A5;
+        color: #A5A5A5;
       }
       /***********************
         CUSTOM BTN VALUES
       ************************/
       .btn {
-          padding: 10px 16px;
-          border: 0 none;
-          font-weight: 700;
-          letter-spacing: 1px;
-          text-transform: uppercase;
+        padding: 10px 16px;
+        border: 0 none;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
       .btn:focus, .btn:active:focus, .btn.active:focus {
-          outline: 0 none;
+        outline: 0 none;
       }
       .panel {
         margin-top: 50px;
@@ -86,7 +90,7 @@
       .panel-heading a.collapsed:after {
         content:"\e079";
       }
-      .table-group {
+      .table {
         font-size: 110%;
       }
       /*.hover tbody tr:hover td, .table-hover tbody tr:hover th {
@@ -113,6 +117,11 @@
       }
       a:focus, a:hover {
         text-decoration: none;
+      }
+      @media (max-width: 800px) { /* Small tablet landscape (800x600) */
+        .table {
+          font-size: 70%;
+        }
       }
     </style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -214,25 +223,22 @@
       </button>
     </div>
   </div>
-  <div class="row">
-  <div class="col-md-2"> 
-    <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-      <h3>Menu</h3>
-      <a href="index.php">Overview</a>
-      <a href="create_ac.php">Create Activity</a>
-      <a href="view_ac.php">View Activity</a>
-      <a href="conclude.php">Conclude</a>
-    </nav>
-  </div>
+  <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+    <h3>Menu</h3>
+    <a href="index.php">Overview</a>
+    <a href="create_ac.php">Create Activity</a>
+    <a href="view_ac.php">View Activity</a>
+    <a href="conclude.php">Conclude</a>
+  </nav>
   <!-- End Menu -->
 
-  <div class="col-md-10 col-md-offset-1">
-    <a href="conclude.php"><button type="button" class="btn btn-primary" title="Back to Groups">Customers View</button>
+  <div class="col-md-7 col-md-offset-3">
+    <a href="conclude.php"><button type="button" class="btn btn-primary" title="Back to Groups">Customers</button>
     </a>
     <!-- Split button -->
     <div class="btn-group">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        Activities View <span class="caret"></span>
+        Activities <span class="caret"></span>
       </button>
       <ul class="activities dropdown-menu" role="menu">
         <?php
@@ -248,7 +254,7 @@
     <!-- Split button -->
     <div class="btn-group">
       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        Groups View <span class="caret"></span>
+        Groups <span class="caret"></span>
       </button>
       <ul class="users dropdown-menu" role="menu">
         <?php
@@ -261,11 +267,11 @@
         <!-- <li><a href="#">Separated link</a></li> -->
       </ul>
     </div>
-    <button type="button" class="btn btn-info pull-right" id="collapse-init">
+    <button type="button" class="btn btn-info" id="collapse-init">
       Expand All
     </button>
   </div>
-  <div class="col-md-10 col-md-offset-1" style="margin-top: -20px;">
+  <div class="col-md-12" style="margin-top: -20px;">
   <div class="panel-group" id="accordion">
   <?php
     foreach ($ac_id as $key => $ac) {
@@ -286,7 +292,7 @@
             var ac_id = (<?php echo $ac; ?>);
             table(group_id, ac_id, 0, "activity");
           </script>
-          <table id="show_answer<?=$ac?>" class="table-group hover compact order-column" cellspacing="0" width="100%">
+          <table id="show_answer<?=$ac?>" class="table hover compact order-column" cellspacing="0" width="100%">
             <thead>
               <tr>
                 <th>กลุ่ม</th>
@@ -306,7 +312,6 @@
   ?>
   </div>
   </div>
-  </div><!-- /row -->
   <script>
     $('ul.activities a').click(function(event){
       event.preventDefault();

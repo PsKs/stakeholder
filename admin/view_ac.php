@@ -18,37 +18,41 @@
     <!-- Bootstrap Table -->
     <link rel="stylesheet" href="../css/bootstrap-table.css">
     <style type="text/css">
+      html, body {
+        width: auto !important;
+        overflow-x: hidden !important;
+      }
       /***********************
         OUTLINE BUTTONS
       ************************/
       .btn.outline {
-          background: none;
-          padding: 5px 5px;
+        background: none;
+        padding: 5px 5px;
       }
       .btn-primary.outline {
-          border: 2px solid #fff;
-          color: #fff;
+        border: 2px solid #fff;
+        color: #fff;
       }
       .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-          color: #CCCCCC;
-          border-color: #CCCCCC;
+        color: #CCCCCC;
+        border-color: #CCCCCC;
       }
       .btn-primary.outline:active, .btn-primary.outline.active {
-          border-color: #A5A5A5;
-          color: #A5A5A5;
+        border-color: #A5A5A5;
+        color: #A5A5A5;
       }
       /***********************
         CUSTOM BTN VALUES
       ************************/
       .btn {
-          padding: 10px 16px;
-          border: 0 none;
-          font-weight: 700;
-          letter-spacing: 1px;
-          text-transform: uppercase;
+        padding: 10px 16px;
+        border: 0 none;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
       .btn:focus, .btn:active:focus, .btn.active:focus {
-          outline: 0 none;
+        outline: 0 none;
       }
       .ml10 {
         color: #000;
@@ -87,19 +91,16 @@
       </button>
     </div>
   </div>
-  <div class="row">
-  <div class="col-md-2"> 
-    <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-      <h3>Menu</h3>
-      <a href="index.php">Overview</a>
-      <a href="create_ac.php">Create Activity</a>
-      <a href="view_ac.php">View Activity</a>
-      <a href="conclude.php">Conclude</a>
-    </nav>
-  </div>
+  <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+    <h3>Menu</h3>
+    <a href="index.php">Overview</a>
+    <a href="create_ac.php">Create Activity</a>
+    <a href="view_ac.php">View Activity</a>
+    <a href="conclude.php">Conclude</a>
+  </nav>
   <!-- End Menu -->
 
-  <div class="col-md-9">
+  <div class="col-md-10 col-md-offset-1">
     <table data-toggle="table"
            data-height="500"
            data-url="lib/fetch_ac.php"
