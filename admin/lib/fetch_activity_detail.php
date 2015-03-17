@@ -24,6 +24,7 @@
     // print_r ($arr);
     // echo $string;
     $string = implode(",",$arr);
+    $string = htmlspecialchars($string);
     $row_array['stakeholder_list'] = $string;
     array_push($return_arr, $row_array);
     // array_push($return_arr, $arr);
