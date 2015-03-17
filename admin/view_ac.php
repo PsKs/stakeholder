@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <title>Risk Management System</title>
+    <title>Adwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/default.css">
@@ -85,7 +85,7 @@
   <div class="bs-docs-header" id="content">
     <div class="container">
       <h1>Admin</h1>
-      <p>Risk Management System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
+      <p>Adwise Workshop for Analysis System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">
       <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
       </button>
@@ -112,19 +112,19 @@
             <th data-field="name" data-sortable="true">ชื่อกิจกรรม</th>
             <th data-field="stakeholder_list" data-sortable="true">รายการ</th>
             <th data-field="created" data-sortable="true">สร้างขึ้นเมื่อ</th>
-            <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">แก้ไข/ลบ</th>
+            <th data-field="action" data-formatter="actionFormatter" data-events="actionEvents">แก้ไข / ลบ</th>
         </tr>
         </thead>
     </table>
     <script>
       function actionFormatter(value, row, index) {
         return [
-            '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
-            '<i class="glyphicon glyphicon-edit"></i>',
-            '</a>',
-            '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
-            '<i class="glyphicon glyphicon-trash"></i>',
-            '</a>'
+          '<a class="edit ml10" href="javascript:void(0)" title="Edit">',
+          '<i class="glyphicon glyphicon-edit"></i>',
+          '</a>',
+          '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
+          '<i class="glyphicon glyphicon-trash"></i>',
+          '</a>'
         ].join('');
       }
       window.actionEvents = {

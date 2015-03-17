@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <title>Risk Management System</title>
+    <title>Adwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/default.css">
@@ -89,7 +89,7 @@
   <div class="bs-docs-header" id="content">
     <div class="container">
       <h1>Admin</h1>
-      <p>Risk Management System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
+      <p>Adwise Workshop for Analysis System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">
       <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
       </button>
@@ -120,37 +120,35 @@
         </tr>
       </thead>
     </table>
-    <script type="text/javascript">
-      function group_name(value, row, index) {
-        return '<a class="gName" href="javascript:void(0)">' + row.group_name + '</a>';
-      }
-      function actionFormatter(value, row, index) {
-        return [
-          '<a class="view ml10" href="javascript:void(0)" title="ดูรายละเอียดกิจกรรม">',
-          '<i class="glyphicon glyphicon-list-alt"></i>',
-          '</a>'
-        ].join('');
-      }
-      window.actionEvents = {
-        'click .view, .gName': function (e, value, row, index) {
-          // console.log(value, row, index);
-          var dataString = 'group_id=' + row.group_id + '&count_ac=' + row.count_ac;
-          jQuery.ajax ({
-            type: "POST", // HTTP method POST or GET
-            url: "group_detail.php", //PHP Page where all your query will write
-            dataType: "text", // Data type, HTML, json etc.
-            data: dataString, //Form Field values
-            complete: function(data){
-              console.log(dataString);
-              //ส่งแบบ GET ไปก่อน
-              window.location = 'group_detail.php?' + dataString;
-            }
-          });
-        }          
-      }
-    </script>
   </div>
-  <script>
+  <script type="text/javascript">
+    function group_name(value, row, index) {
+      return '<a class="gName" href="javascript:void(0)">' + row.group_name + '</a>';
+    }
+    function actionFormatter(value, row, index) {
+      return [
+        '<a class="view ml10" href="javascript:void(0)" title="ดูรายละเอียดกิจกรรม">',
+        '<i class="glyphicon glyphicon-list-alt"></i>',
+        '</a>'
+      ].join('');
+    }
+    window.actionEvents = {
+      'click .view, .gName': function (e, value, row, index) {
+        // console.log(value, row, index);
+        var dataString = 'group_id=' + row.group_id + '&count_ac=' + row.count_ac;
+        jQuery.ajax ({
+          type: "POST", // HTTP method POST or GET
+          url: "group_detail.php", //PHP Page where all your query will write
+          dataType: "text", // Data type, HTML, json etc.
+          data: dataString, //Form Field values
+          complete: function(data){
+            console.log(dataString);
+            //ส่งแบบ GET ไปก่อน
+            window.location = 'group_detail.php?' + dataString;
+          }
+        });
+      }          
+    }
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
         body = document.body;
     showLeft.onclick = function() {

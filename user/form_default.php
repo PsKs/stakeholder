@@ -6,7 +6,7 @@
         echo "<th class='text-center'>".$value."</th>";
       }
     ?>
-    <th class='col-md-1'></th>
+      <th class='col-md-1'></th>
     </tr>
   </thead>
   <tbody id='p_scents'>
@@ -19,7 +19,7 @@
       function gen_form() {
         arr_stklist.forEach(function(element, index){
           if (element == "text") {
-            form[index] = '<td><textarea class="form-control" rows="1" id="arr_TextAns['+row+']['+index+']"></textarea></td>';
+            form[index] = '<td><textarea class="form-control" rows="2" id="arr_TextAns['+row+']['+index+']"></textarea></td>';
           } else if (element == "level") {
             form[index] = '<td><select class="form-control" id="arr_LevelAns['+row+']['+index+']">\
                               <option value="1" selected="selected">1</option>\
@@ -35,7 +35,12 @@
         return form;
       }
       function get_form() {
-        scntDiv.append('<tr>'+gen_form()+'</tr>');
+        scntDiv.append('<tr>'+gen_form()+ 
+                      '<td class="text-center">\
+                        <button type="button" class="btn btn-warning btn-sm" disabled="disabled" id="remScnt">\
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
+                        </button>\
+                      </td></tr>');
       }            
     </script>
     <?php

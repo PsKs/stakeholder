@@ -4,9 +4,13 @@
  * Licensed under the Creative Commons Attribution 3.0 Unported License. For
  * details, see http://creativecommons.org/licenses/by/3.0/.
  */body{
-  position:relative
+  position:relative;
+  background-color: #f1f2f4
 }
-
+table {
+  background-color: #FFF;
+  border-color: #FFF
+}
 .table code{
   font-size:13px;
   font-weight:400
@@ -181,15 +185,17 @@
 .bs-docs-header,.bs-docs-masthead{
   position:relative;
   padding:30px 15px;
-  color:#cdbfe3;
+  color:#ccd2df;
+  border-bottom: 1px solid #00164e;
+  box-shadow: 0px 2px 2px -2px rgba(0, 0, 0, 0.70);
   text-align:center;
   text-shadow:0 1px 0 rgba(0,0,0,.1);
-  background-color:#6f5499;
-  background-image:-webkit-gradient(linear,left top,left bottom,from(#563d7c),to(#6f5499));
-  background-image:-webkit-linear-gradient(top,#563d7c 0,#6f5499 100%);
-  background-image:-o-linear-gradient(top,#563d7c 0,#6f5499 100%);
-  background-image:linear-gradient(to bottom,#563d7c 0,#6f5499 100%);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+  background-color:#06236B;
+  background-image:-webkit-gradient(linear,left top,left bottom,from(#00164e),to(#06236B));
+  background-image:-webkit-linear-gradient(top,#00164e 0,#06236B 100%);
+  background-image:-o-linear-gradient(top,#00164e 0,#06236B 100%);
+  background-image:linear-gradient(to bottom,#00164e 0,#06236B 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00164e', endColorstr='#06236B', GradientType=0);
   background-repeat:repeat-x
 }
 
@@ -198,7 +204,7 @@
 }
 
 .bs-docs-masthead h1{
-  font-weight:300;
+  font-weight:400;
   line-height:1;
   color:#fff
 }
@@ -263,7 +269,7 @@
 
 .bs-docs-header p{
   margin-bottom:0;
-  font-weight:300;
+  font-weight:400;
   line-height:1.4
 }
 
@@ -273,14 +279,14 @@
 
 @media (min-width:768px){
   .bs-docs-header{
-    padding-top:10px;
-    padding-bottom:10px;
-    font-size:18px;
+    padding-top:30px;
+    padding-bottom:30px;
+    font-size:20px;
     text-align:left
   }
 
   .bs-docs-header h1{
-    font-size:35px;
+    font-size:40px;
     line-height:1
   }
 

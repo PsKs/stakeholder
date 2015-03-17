@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <title>Risk Management System</title>
+    <title>Adwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/default.css">
@@ -159,7 +159,7 @@
   <div class="bs-docs-header" id="content">
     <div class="container">
       <h1><?=$name?></h1>
-      <p>Risk Management System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
+      <p>Adwise Workshop for Analysis System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">
       <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
       </button>

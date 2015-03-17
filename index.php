@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>Risk Management System</title>
+    <title>Adwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/doc.css" rel="stylesheet">
@@ -23,6 +23,18 @@
     <style>
       .login-panel {
         margin-top: 2em;
+        border-color: #003e75;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.7);
+      }
+      .panel-success > .panel-heading {
+        background-color: #003e75;
+        border-color: #003e75;
+        color: #FFF
+      }
+      .btn-success {
+        color: #FFF;
+        background-color: #003e75;
+        border-color: #003e75
       }
       .alert-danger {
         margin-top: 2em;
@@ -36,9 +48,8 @@
     <!-- Docs page layout -->
     <div class="bs-docs-header" id="content">
       <div class="container">
-        <h1>Risk Management Systems</h1>
+        <h1>Adwise Workshop for Analysis System</h1>
         <p>Atwise Consulting Co., Ltd.</p><p>Success Management Company.</p>
-        <div id="carbonads-container"><div class="carbonad"><div id="azcarbon"></div></div></div>
       </div>
     </div>
     <?php
