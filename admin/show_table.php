@@ -179,7 +179,7 @@
         } elseif ($flag === "choose_activity") {
           echo "สรุปกิจกรรมที่ ".$ac_no[0]." ".$ac_name[0];
         } elseif ($flag === "choose_user") {
-          echo "สรุปกิจกรรมของกลุ่ม ".$ac_username[0];
+          echo "สรุปกิจกรรม ".$ac_username[0];
         }
       ?>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">

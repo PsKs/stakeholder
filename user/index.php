@@ -1,6 +1,7 @@
 <?php  
-  session_start();//session starts here
+  session_start(); //session starts here
   $name = $_SESSION['name'];
+  $user_id = $_SESSION['user_id'];
 ?>  
 <!DOCTYPE html>
 <html lang="en">
