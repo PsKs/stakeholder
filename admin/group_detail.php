@@ -7,25 +7,6 @@
     header('Location: conclude.php');
   }
   require("lib/fetch_group_detail.php");
-
-  $arr_stklist = array(array());
-  $arr_stklist = array_mapping($stklist_id, $stklist_name);
-  // print_r($arr_stklist);
-  // print_r($ac_pos[0]);
-  
-  /* 
-  * ข้อมูลอยู่ในรูปแบบ Array string e.g. ["foo","bar","bra bra"]
-  * นำค่าไปใช้งานยังไม่ได้ต้องแปลงเป็น Array ก่อนจึงสามารถ
-  * เรียกใช้งานรายตัวได้ 
-  * คืนค่าเป็น Array
-  */
-  
-  $ac_pos = split_String_in_Array($ac_pos);
-  // print_r($ac_pos);
-  $arr_stklist = move_position($ac_pos, $arr_stklist);
-  // print_r($arr_stklist);
-  // $ans_detail = split_String_in_Array_ANS($ans_detail);
-  // print_r($ans_detail);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -243,7 +224,9 @@
       <ul class="activities dropdown-menu" role="menu">
         <?php
           $arr = fetch_activities_list($group_id);
-          for ($i=0; $i < count($arr); $i++) { 
+          // print_r($arr);
+          // echo count($arr['ac_id']);
+          for ($i=0; $i < count($arr['ac_id']); $i++) { 
             echo "<li><a href='#' value='".$arr['ac_id'][$i]."'>กิจกรรมที่ ".$arr['ac_no'][$i]." - ".$arr['ac_name'][$i]."</a></li>";
           }
         ?>
@@ -259,7 +242,7 @@
       <ul class="users dropdown-menu" role="menu">
         <?php
           $arr = fetch_users_list($group_id);
-          for ($i=0; $i < count($arr); $i++) { 
+          for ($i=0; $i < count($arr['user_id']); $i++) { 
             echo "<li><a href='#' value='".$arr['user_id'][$i]."'>".$arr['name'][$i]."</a></li>";
           }
         ?>
