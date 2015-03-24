@@ -1,5 +1,5 @@
 <?php  
-  session_start();//session starts here 
+  session_start();//session starts here
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -139,41 +139,104 @@
   </nav>
   <!-- End Menu -->
 
-  <div class="row">
-    <div id="gDetailForm" style="display: none;">
-      <div class="doc-demo">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#user-tab" aria-expanded="true">Group</a></li>
-            <li class=""><a data-toggle="tab" href="#activity-tab" aria-expanded="false">Activity</a></li>
-        </ul>
-        <!-- Content Here -->
-        <div class="tab-content">
-          <div id="user-tab" class="tab-pane active">
-            <table class="table" id="userTable">
-              <caption>รายละเอียดผู้ใช้งานในกลุ่ม</caption>
-              <thead>
-                <tr>
-                  <th>Username</th>
-                  <th>Password</th>
-                  <th>Name</th>
-                  <th>Created</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-          <div id="activity-tab" class="tab-pane">
-            <table class="table" id="activityTable">
-              <caption>รายละเอียดกิจกรรมในกลุ่ม</caption>
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>Name</th>
-                  <th>Created</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
+  <div id="customerDetailForm" style="display: none;">
+    <div class="doc-demo">
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#user-tab" aria-expanded="true">Group</a></li>
+        <li class=""><a data-toggle="tab" href="#activity-tab" aria-expanded="false">Activity</a></li>
+      </ul>
+      <!-- Content Here -->
+      <div class="tab-content">
+        <div id="gId" value=""></div>
+        <div id="user-tab" class="tab-pane active">
+          <table class="table" id="userTable">
+            <caption>รายละเอียดกลุ่ม</caption>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Name</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+          </table>
+          <button type="button" class="btn btn-success" id="regGroup">เพิ่มกลุ่ม
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-info" id="printBtn">พิมพ์
+            <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+          </button>
         </div>
+        <div id="activity-tab" class="tab-pane">
+          <table class="table" id="activityTable">
+            <caption>รายละเอียดกิจกรรม</caption>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="groupRegisterForm" style="display: none;">
+    <div class="doc-demo">
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#autoReg-tab" aria-expanded="true">Automatic Register</a></li>
+        <li class=""><a data-toggle="tab" href="#manualReg-tab" aria-expanded="false">Manual Register</a></li>
+      </ul>
+      <!-- Content Here -->
+      <div class="tab-content">
+        <div id="autoReg-tab" class="tab-pane active">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="username">Prefix-username</label>
+              <div class="col-md-4">
+                <input name="username" type="text" placeholder="atw" value="atw" class="form-control input-md" autofocus/>
+                *Default atw[xxxxx]
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="name">Prefix-name</label>
+              <div class="col-md-4">
+                <input name="name" type="text" placeholder="กลุ่มที่" value="กลุ่มที่" class="form-control input-md"/>
+                *Default กลุ่มที่ [xx]
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="amount">Amount</label>
+              <div class="col-md-4">
+                <input name="amount" type="text" placeholder="Amount" value="5" class="form-control input-md"/>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div id="manualReg-tab" class="tab-pane">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="username">Username</label>
+              <div class="col-md-4">
+                <input name="username" type="text" placeholder="Username" class="form-control input-md" autofocus/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="password">Password</label>
+              <div class="col-md-4">
+                <input name="password" type="password" placeholder="Password" class="form-control input-md"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="name">Name</label>
+              <div class="col-md-4">
+                <input name="name" type="text" placeholder="Name of Group" class="form-control input-md"/>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -195,6 +258,60 @@
     </table>
   </div>
   <script type="text/javascript">
+    function callCustomerDetail(gId) {
+      $("#gId").attr("value", gId);
+      $.ajax({
+        url: "lib/fetch_customer_detail.php",
+        type: "POST",
+        data: "gId="+gId,
+        dataType: "JSON",
+        success: function (response) {
+          var trHTML = '';
+          $("#userTable tbody").empty(); // Clear Table
+          $.each(response, function (i, item) {
+              trHTML += '<tr><td>' + item.username + '</td><td>' + item.password + '</td><td>' + item.name + '</td><td>' + item.created + '</td></tr>';
+          });
+          $('#userTable').append(trHTML);
+        }
+      });
+      $.ajax({
+        url: "lib/fetch_activity_detail.php",
+        type: "POST",
+        data: "gId="+gId,
+        dataType: "JSON",
+        success: function (response) {
+          var trHTML = '';
+          $("#activityTable tbody").empty(); // Clear Table
+          $.each(response, function (i, item) {
+              trHTML += '<tr><td>' + item.no + '</td><td title="' + item.stakeholder_list + '">' + item.name + '</td><td>' + item.created + '</td></tr>';
+          });
+          $('#activityTable').append(trHTML);
+        }
+      });
+      bootbox.dialog({
+        title: 'Customer Detail',
+        message: $('#customerDetailForm'),
+        show: false, // We will show it manually later
+      })
+      .on('shown.bs.modal', function() {
+        $('#customerDetailForm')
+          .show()                             // Show the login form
+      })
+      .on('hide.bs.modal', function(e) {
+        // Bootbox will remove the modal (including the body which contains the login form)
+        // after hiding the modal
+        // Therefor, we need to backup the form
+        $('#customerDetailForm').hide().appendTo('body');
+      })
+      .modal('show');
+    }
+    function clear_form () {
+      $(':input','form')
+      .removeAttr('checked')
+      .removeAttr('selected')
+      .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+      .val('');
+    }
     function actionFormatter(value, row, index) {
       return [
         '<a class="g_detail ml10" id="g" href="javascript:void(0)" title="รายละเอียดของลูกค้า กลุ่มและกิจกรรม">',
@@ -206,92 +323,101 @@
       ].join('');
     }
     window.actionEvents = {
+      /*
+       * ปุ่มรายละเอียด
+       */
       'click .g_detail': function (e, value, row, index) {
-        var gId = row.group_id;
-        $.ajax({
-          url: "lib/fetch_customer_detail.php",
-          type: "POST",
-          data: "gId="+gId,
-          dataType: "JSON",
-          success: function (response) {
-            var trHTML = '';
-            $("#userTable tbody").empty(); // Clear Table
-            $.each(response, function (i, item) {
-                trHTML += '<tr><td>' + item.username + '</td><td>' + item.password + '</td><td>' + item.name + '</td><td>' + item.created + '</td></tr>';
-            });
-            $('#userTable').append(trHTML);
-          }
-        });
-        $.ajax({
-          url: "lib/fetch_activity_detail.php",
-          type: "POST",
-          data: "gId="+gId,
-          dataType: "JSON",
-          success: function (response) {
-            var trHTML = '';
-            $("#activityTable tbody").empty(); // Clear Table
-            $.each(response, function (i, item) {
-                trHTML += '<tr><td>' + item.no + '</td><td title="' + item.stakeholder_list + '">' + item.name + '</td><td>' + item.created + '</td></tr>';
-            });
-            $('#activityTable').append(trHTML);
-          }
-        });
-        bootbox
-          .dialog({
-            title: 'Group Detail',
-            message: $('#gDetailForm'),
-            show: false, // We will show it manually later
-          })
-          .on('shown.bs.modal', function() {
-            $('#gDetailForm')
-              .show()                             // Show the login form
-          })
-          .on('hide.bs.modal', function(e) {
-            // Bootbox will remove the modal (including the body which contains the login form)
-            // after hiding the modal
-            // Therefor, we need to backup the form
-            $('#gDetailForm').hide().appendTo('body');
-          })
-          .modal('show');
+        callCustomerDetail(row.group_id);
       },
       /*
        * ปุ่มแก้ไข
        */
-      'click .g_edit': function (e, value, row, index) {
-        var gId = row.group_id;
-        $.ajax({
-            url: "lib/fetch_activity_detail.php",
-            type: "POST",
-            data: "gId="+gId,
-            dataType: "JSON",
-            success: function (response) {
-              var trHTML = '';
-              $("#userTable tbody").empty(); // Clear Table
-              $.each(response, function (i, item) {
-                  trHTML += '<tr><td>' + item.username + '</td><td>' + item.password + '</td><td>' + item.name + '</td><td>' + item.created + '</td></tr>';
-              });
-              $('#userTable').append(trHTML);
-            }
-        });
-        bootbox
-          .dialog({
-            title: 'Group Detail',
-            message: $('#gDetailForm'),
-            show: false, // We will show it manually later
-          })
-          .on('shown.bs.modal', function() {
-            $('#gDetailForm')
-              .show()                             // Show the login form
-          })
-          .on('hide.bs.modal', function(e) {
-            // Bootbox will remove the modal (including the body which contains the login form)
-            // after hiding the modal
-            // Therefor, we need to backup the form
-            $('#gDetailForm').hide().appendTo('body');
-          })
-          .modal('show');
-      }
+      // 'click .g_edit': function (e, value, row, index) {
+      //   var gId = row.group_id;
+      //   $.ajax({
+      //       url: "lib/fetch_activity_detail.php",
+      //       type: "POST",
+      //       data: "gId="+gId,
+      //       dataType: "JSON",
+      //       success: function (response) {
+      //         var trHTML = '';
+      //         $("#userTable tbody").empty(); // Clear Table
+      //         $.each(response, function (i, item) {
+      //             trHTML += '<tr><td>' + item.username + '</td><td>' + item.password + '</td><td>' + item.name + '</td><td>' + item.created + '</td></tr>';
+      //         });
+      //         $('#userTable').append(trHTML);
+      //       }
+      //   });
+      //   bootbox.dialog({
+      //     title: 'Customer Detail',
+      //     message: $('#customerDetailForm'),
+      //     show: false, // We will show it manually later
+      //   })
+      //   .on('shown.bs.modal', function() {
+      //     $('#customerDetailForm')
+      //       .show()                             // Show the login form
+      //   })
+      //   .on('hide.bs.modal', function(e) {
+      //     // Bootbox will remove the modal (including the body which contains the login form)
+      //     // after hiding the modal
+      //     // Therefor, we need to backup the form
+      //     $('#customerDetailForm').hide().appendTo('body');
+      //   })
+      //   .modal('show');
+      // }
     }
+    /*
+     * ปุ่มเพิ่มกลุ่ม
+     */
+    $(document).on("click", "#regGroup", function(e) {
+      bootbox.dialog({
+        title: "Group Register",
+        message: $('#groupRegisterForm'),
+        show: false,
+        buttons: {
+          success: {
+            label: "Save",
+            className: "btn-success",
+            callback: function () {
+              // console.log($("#gId").attr("value"));
+              var gId = $('#gId').attr('value');
+              // Get active[autoReg-tab/manualReg-tab] tab form groupRegisterForm
+              // and then get "pure" href without hash # sign with this:
+              var href = $('#groupRegisterForm ul.nav-tabs li.active a').attr('href').split('#')[1];
+              // Or this: href = href.substring(href.indexOf('#') + 1);
+              // var data = $('#'+href).find('input[type=text]').map(function() { return $(this).val(); }).get(); // .join() = Convert to String
+              var data = $('#'+href).find('form').serializeArray();
+              console.log(data);
+              clear_form();
+              bootbox.hideAll();
+              callCustomerDetail();
+            }
+          },
+          cancel: {
+            label: "Cancel",
+            className: "btn-default",
+            callback: function () {
+              clear_form();
+              // $('form').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
+            }
+          }
+        }
+      })
+      .on('shown.bs.modal', function() {
+        $('#groupRegisterForm')
+          .show()                             // Show the login form
+      })
+      .on('hide.bs.modal', function(e) {
+        $('#groupRegisterForm').hide().appendTo('body');
+      })
+      .modal('show');
+    });
+    /*
+     * ปุ่มพิมพ์
+     */
+    $(document).on("click", "#printBtn", function(e) {
+       window.print();
+    });
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
         body = document.body;
     showLeft.onclick = function() {

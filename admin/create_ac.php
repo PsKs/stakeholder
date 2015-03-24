@@ -188,13 +188,13 @@
                               dataType: "text", // Data type, HTML, json etc.
                               data: dataString, //Form Field values
                               success: function(data) {
-                                  //$("#YourDivId").html(data); //Your Div Id Where Your listing is placed 
-                                  //$("#PopUPDiv").hide(); // Hide Div after success
-                                  //alert(data);
+                                  // $("#YourDivId").html(data); //Your Div Id Where Your listing is placed 
+                                  // $("#PopUPDiv").hide(); // Hide Div after success
+                                  // alert(data);
                                   window.location.reload();
                               }
                               });
-                              //window.alert("Hello " + name + ". You've chosen <b>" + stklist_type + "</b>");
+                              // window.alert("Hello " + name + ". You've chosen <b>" + stklist_type + "</b>");
                             }
                         }
                     },
