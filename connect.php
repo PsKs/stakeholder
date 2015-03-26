@@ -1,10 +1,14 @@
 <?php    
     // These variables define the connection information for your MySQL database 
-    $username = "root";
-    $password = "tua878faeff";
+    $db_username = "root";
+    $db_password = "tua878faeff";
     $host = "localhost";
-    $dbname = "stakeholder";
-    $dbcon = mysqli_connect($host, $username, $password);
-    mysqli_set_charset($dbcon, "utf8");
-    mysqli_select_db($dbcon, $dbname);
+    $db_name = "stakeholder";
+    $dbcon = @mysqli_connect($host, $db_username, $db_password);
+    // Check connection
+    if (mysqli_connect_errno()) {
+      echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    }
+    @mysqli_set_charset($dbcon, "utf8");
+    @mysqli_select_db($dbcon, $db_name);
 ?> 

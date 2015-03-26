@@ -22,7 +22,6 @@
       array_push($arr, $rs['stklist_name']);
     }
     // print_r ($arr);
-    // echo $string;
     $string = implode(",",$arr);
     $string = htmlspecialchars($string);
     $row_array['stakeholder_list'] = $string;

@@ -161,9 +161,12 @@
             </thead>
           </table>
           <button type="button" class="btn btn-success" id="regGroup">เพิ่มกลุ่ม
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
           </button>
-          <button type="button" class="btn btn-info" id="printBtn">พิมพ์
+          <button type="button" class="btn btn-danger" id="showPass">แสดงรหัส
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-info pull-right" id="printBtn">พิมพ์
             <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
           </button>
         </div>
@@ -178,6 +181,9 @@
               </tr>
             </thead>
           </table>
+          <button type="button" class="btn btn-success" id="addActivity">เพิ่มกิจกรรม
+            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
     </div>
@@ -260,16 +266,18 @@
   <script type="text/javascript">
     function callCustomerDetail(gId) {
       $("#gId").attr("value", gId);
+      var gId = $("#gId").attr("value");
+      // alert(gId);
       $.ajax({
         url: "lib/fetch_customer_detail.php",
         type: "POST",
         data: "gId="+gId,
         dataType: "JSON",
-        success: function (response) {
+        success: function(response) {
           var trHTML = '';
-          $("#userTable tbody").empty(); // Clear Table
+          $("#userTable tbody").empty(); /* Clear table */
           $.each(response, function (i, item) {
-              trHTML += '<tr><td>' + item.username + '</td><td>' + item.password + '</td><td>' + item.name + '</td><td>' + item.created + '</td></tr>';
+              trHTML += '<tr><td>'+item.username+'</td><td title="'+item.full_pass_encrypt+'">'+item.min_pass_encrypt+'</td><td>'+item.name+'</td><td>'+item.created+'</td></tr>';
           });
           $('#userTable').append(trHTML);
         }
@@ -279,11 +287,11 @@
         type: "POST",
         data: "gId="+gId,
         dataType: "JSON",
-        success: function (response) {
+        success: function(response) {
           var trHTML = '';
-          $("#activityTable tbody").empty(); // Clear Table
+          $("#activityTable tbody").empty(); /* Clear table */
           $.each(response, function (i, item) {
-              trHTML += '<tr><td>' + item.no + '</td><td title="' + item.stakeholder_list + '">' + item.name + '</td><td>' + item.created + '</td></tr>';
+              trHTML += '<tr><td>'+item.no+'</td><td title="'+item.stakeholder_list+'">'+item.name+'</td><td>'+item.created+'</td></tr>';
           });
           $('#activityTable').append(trHTML);
         }
@@ -295,17 +303,18 @@
       })
       .on('shown.bs.modal', function() {
         $('#customerDetailForm')
-          .show()                             // Show the login form
+          .show() // Show the customer detail form
       })
       .on('hide.bs.modal', function(e) {
-        // Bootbox will remove the modal (including the body which contains the login form)
+        // Bootbox will remove the modal (including the body which contains the customer detail form)
         // after hiding the modal
         // Therefor, we need to backup the form
         $('#customerDetailForm').hide().appendTo('body');
+        setTimeout(function () { window.location.reload(1); } ); /* Load page again when Bootbox close */ 
       })
       .modal('show');
     }
-    function clear_form () {
+    function clear_form() {
       $(':input','form')
       .removeAttr('checked')
       .removeAttr('selected')
@@ -315,10 +324,7 @@
     function actionFormatter(value, row, index) {
       return [
         '<a class="g_detail ml10" id="g" href="javascript:void(0)" title="รายละเอียดของลูกค้า กลุ่มและกิจกรรม">',
-        '<i class="glyphicon glyphicon-user"></i>',
-        '</a> / ',
-        '<a class="g_edit ml10" href="javascript:void(0)" title="เพิ่ม ลบ แก้ไขกลุ่มและกิจกรรม">',
-        '<i class="glyphicon glyphicon-edit"></i>',
+        '<i class="glyphicon glyphicon-folder-open"></i>',
         '</a>'
       ].join('');
     }
@@ -326,45 +332,9 @@
       /*
        * ปุ่มรายละเอียด
        */
-      'click .g_detail': function (e, value, row, index) {
+      'click .g_detail': function(e, value, row, index) {
         callCustomerDetail(row.group_id);
       },
-      /*
-       * ปุ่มแก้ไข
-       */
-      // 'click .g_edit': function (e, value, row, index) {
-      //   var gId = row.group_id;
-      //   $.ajax({
-      //       url: "lib/fetch_activity_detail.php",
-      //       type: "POST",
-      //       data: "gId="+gId,
-      //       dataType: "JSON",
-      //       success: function (response) {
-      //         var trHTML = '';
-      //         $("#userTable tbody").empty(); // Clear Table
-      //         $.each(response, function (i, item) {
-      //             trHTML += '<tr><td>' + item.username + '</td><td>' + item.password + '</td><td>' + item.name + '</td><td>' + item.created + '</td></tr>';
-      //         });
-      //         $('#userTable').append(trHTML);
-      //       }
-      //   });
-      //   bootbox.dialog({
-      //     title: 'Customer Detail',
-      //     message: $('#customerDetailForm'),
-      //     show: false, // We will show it manually later
-      //   })
-      //   .on('shown.bs.modal', function() {
-      //     $('#customerDetailForm')
-      //       .show()                             // Show the login form
-      //   })
-      //   .on('hide.bs.modal', function(e) {
-      //     // Bootbox will remove the modal (including the body which contains the login form)
-      //     // after hiding the modal
-      //     // Therefor, we need to backup the form
-      //     $('#customerDetailForm').hide().appendTo('body');
-      //   })
-      //   .modal('show');
-      // }
     }
     /*
      * ปุ่มเพิ่มกลุ่ม
@@ -378,7 +348,7 @@
           success: {
             label: "Save",
             className: "btn-success",
-            callback: function () {
+            callback: function() {
               // console.log($("#gId").attr("value"));
               var gId = $('#gId').attr('value');
               // Get active[autoReg-tab/manualReg-tab] tab form groupRegisterForm
@@ -387,7 +357,17 @@
               // Or this: href = href.substring(href.indexOf('#') + 1);
               // var data = $('#'+href).find('input[type=text]').map(function() { return $(this).val(); }).get(); // .join() = Convert to String
               var data = $('#'+href).find('form').serializeArray();
-              console.log(data);
+              data[data.length] = { name: "group_id", value: gId };
+              // console.log(data);
+              jQuery.ajax({
+                type: "POST",
+                url: "lib/regis_group.php",
+                dataType: "JSON",
+                data: data,
+                success: function(data) {
+                  console.log("Registered");
+                }
+              });
               clear_form();
               bootbox.hideAll();
               callCustomerDetail();
@@ -396,7 +376,7 @@
           cancel: {
             label: "Cancel",
             className: "btn-default",
-            callback: function () {
+            callback: function() {
               clear_form();
               // $('form').find('input[type=text], input[type=password], input[type=number], input[type=email], textarea').val('');
             }
@@ -405,7 +385,7 @@
       })
       .on('shown.bs.modal', function() {
         $('#groupRegisterForm')
-          .show()                             // Show the login form
+          .show()
       })
       .on('hide.bs.modal', function(e) {
         $('#groupRegisterForm').hide().appendTo('body');
