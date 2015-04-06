@@ -1,5 +1,5 @@
 <script>
-  function alert_warning(){
+  function alert_warning() {
     $("#alert").html('<div class="alert alert-danger">Username or password is incorrect!</div>');
     window.setTimeout(function() {
       $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
