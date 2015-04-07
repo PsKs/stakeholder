@@ -186,12 +186,13 @@
   });
   // click handler
   $(document).on('click', '#save', function(event) {
-    ac_type = <?php echo json_encode($ac_type); ?>;
+    var ac_type = <?php echo json_encode($ac_type); ?>;
     if (ac_type !== "swot-tows") {
       // x.length = 0; faster than x = [];
       // http://jsperf.com/array-destroy/151
       x.length = 0;
       x.push(<?php echo json_encode($ac_id); ?>);
+      x.push(ac_type);
       var y = [],
           elm = [],
           sum = 0;
@@ -231,7 +232,7 @@
         // console.log('x after = ',x);
       }
       x = x.filter(isNotEmtry);
-      console.log('final = ',x);
+      // console.log('final = ',x);
       // var name = $('input[id^=arr_TextAns]').map(function(idx, elem) {
       //   return $(elem).val();
       // }).get();
@@ -248,8 +249,9 @@
         return $(elem).val();
       }).get();
       x.push(<?php echo json_encode($ac_id); ?>);
+      x.push(ac_type);
       x.push(arr_text);
-      console.log(x);
+      // console.log(x);
     };
   event.preventDefault();
   // document.getElementById('arr_Result').innerHTML = name*num;
@@ -264,7 +266,7 @@
           dataType: "text", // Data type, HTML, json etc.
           data: {'data':x},
           success: function(data) {
-            console.log(x);
+            // console.log(x);
             // similar behavior as an HTTP redirect
             window.location.replace('view.php');
           }
