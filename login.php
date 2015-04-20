@@ -11,7 +11,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <div class="login-panel panel panel-success">
+      <div class="login-panel panel panel-success-login">
         <div class="panel-heading">
           <h3 class="panel-title">Sign In</h3>  
         </div>  
@@ -24,9 +24,7 @@
               <div class="form-group">  
                 <input class="form-control" placeholder="Password" name="user_pass" type="password" value="">  
               </div>  
-              <input class="btn btn-lg btn-success btn-block" type="submit" value="login" name="login" >  
-              <!-- Change this to a button or input when using this as a form -->  
-              <!--  <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a> -->  
+              <input class="btn btn-lg btn-success-login btn-block" type="submit" value="login" name="login" >  
             </fieldset>  
           </form>  
         </div>  

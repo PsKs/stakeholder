@@ -10,7 +10,7 @@
     $row_array['id'] = $row['ac_id'];
   	$row_array['no'] = $row['ac_no'];
     $row_array['name'] = $row['ac_name'];
-    $row_array['created'] = $row['created'];
+    $row_array['created'] = date('j-M-y', strtotime($row['created']));
     $sql = "select stakeholder_list.stklist_id, stakeholder_list.stklist_name from stakeholder_list left join stakeholder on (stakeholder.stklist_id = stakeholder_list.stklist_id) left join activity on (stakeholder.ac_id = activity.ac_id) where activity.ac_id = ".$row['ac_id'];
     $run_2 = mysqli_query($dbcon, $sql);
     while ($rs = mysqli_fetch_array($run_2, MYSQL_ASSOC)) {

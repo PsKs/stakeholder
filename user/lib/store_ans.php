@@ -30,6 +30,7 @@
   //           [3] => 16
   //       )
   //   )
+  // ===============================================
   // Array
   //   (
   //     [0] => 3
@@ -50,16 +51,18 @@
     $user_id = $_SESSION['user_id'];
     $array_Data = $_POST['data'];
     $array_Ans = [];
+    $tmp = [];
     $ac_id = $array_Data[0];
     if ($array_Data[1] === 'swot-tows') {
-      array_push($array_Ans, $array_Data[2][2]);
-      array_push($array_Ans, $array_Data[2][5]);
-      array_push($array_Ans, $array_Data[2][0]);
-      array_push($array_Ans, $array_Data[2][1]);
-      array_push($array_Ans, $array_Data[2][3]);
-      array_push($array_Ans, $array_Data[2][4]);
-      array_push($array_Ans, $array_Data[2][6]);
-      array_push($array_Ans, $array_Data[2][7]);
+      array_push($tmp, $array_Data[2][2]);
+      array_push($tmp, $array_Data[2][5]);
+      array_push($tmp, $array_Data[2][0]);
+      array_push($tmp, $array_Data[2][1]);
+      array_push($tmp, $array_Data[2][3]);
+      array_push($tmp, $array_Data[2][4]);
+      array_push($tmp, $array_Data[2][6]);
+      array_push($tmp, $array_Data[2][7]);
+      $array_Ans[] = $tmp;
     } else {
       foreach ($array_Data as $key => $value) {
         if ($key > 1) {

@@ -25,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <title>Adwise Workshop for Analysis System</title>
+    <title>Atwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
 
@@ -36,42 +36,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
-      html, body {
-        width: auto !important;
-        overflow-x: hidden !important;
-      }
-      /***********************
-        OUTLINE BUTTONS
-      ************************/
-      .btn.outline {
-        background: none;
-        padding: 5px 5px;
-      }
-      .btn-primary.outline {
-        border: 2px solid #fff;
-        color: #fff;
-      }
-      .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-        color: #CCCCCC;
-        border-color: #CCCCCC;
-      }
-      .btn-primary.outline:active, .btn-primary.outline.active {
-        border-color: #A5A5A5;
-        color: #A5A5A5;
-      }
-      /***********************
-        CUSTOM BTN VALUES
-      ************************/
-      .btn {
-        padding: 10px 16px;
-        border: 0 none;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-      }
-      .btn:focus, .btn:active:focus, .btn.active:focus {
-        outline: 0 none;
-      }
       .panel {
         margin-top: 50px;
       }  

@@ -7,7 +7,7 @@
   while ($row = mysqli_fetch_array($run, MYSQL_ASSOC)) {
     $row_array['group_id'] = $row['group_id'];
     $row_array['group_name'] = $row['group_name'];
-    $row_array['created'] = $row['created'];
+    $row_array['created'] = date('j-M-y g:iA', strtotime($row['created']));
     $g_id = $row['group_id'];
     $sql = "SELECT (SELECT COUNT(users.user_id) 
                     FROM users 

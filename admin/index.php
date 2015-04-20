@@ -9,109 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <title>Adwise Workshop for Analysis System</title>
+    <title>Atwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/default.css">
-    <link rel="stylesheet" href="../css/component.css">
-    <link rel="stylesheet" href="../css/doc.css">
     <!-- Bootstrap Table -->
     <link rel="stylesheet" href="../css/bootstrap-table.css">
     <link rel="stylesheet" href="../css/bootstrap-dropdown-checkbox.css">
-    <style type="text/css">
-      html, body {
-        width: auto !important;
-        overflow-x: hidden !important;
-      }
-      /***********************
-        OUTLINE BUTTONS
-      ************************/
-      .btn.outline {
-        background: none;
-        padding: 5px 5px;
-      }
-      .btn-primary.outline {
-        border: 2px solid #fff;
-        color: #fff;
-      }
-      .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-        color: #CCCCCC;
-        border-color: #CCCCCC;
-      }
-      .btn-primary.outline:active, .btn-primary.outline.active {
-        border-color: #A5A5A5;
-        color: #A5A5A5;
-      }
-      /***********************
-        CUSTOM BTN VALUES
-      ************************/
-      .btn {
-        padding: 10px 16px;
-        border: 0 none;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-      }
-      .btn:focus, .btn:active:focus, .btn.active:focus {
-        outline: 0 none;
-      }
-      .ml10 {
-        color: #000;
-        /*margin-left: 10px;*/
-      }
-      .ml10:hover {
-        color: #7B1FA2;
-      }
-      .ml11 {
-        color: #000;
-        /*margin-left: 10px;*/
-      }
-      .ml11:hover {
-        color: #C9302C;
-      }
-      .gName {
-        color: #000;
-      }
-      .gName:hover {
-        color: #7B1FA2;
-        /*text-decoration: none;*/
-      }
-      .doc-demo {
-        margin-bottom: 15px;
-      }
-      .doc-demo .doc-demo-direct {
-        float: right;
-        display: none;
-      }
-      .doc-demo .tab-pane {
-        padding: 10px 15px;
-      }
-      .doc-demo .tab-content > .active {
-        border: 1px solid #ddd;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-        border-top: none;
-      }
-      .doc-demo pre {
-        border: none;
-        margin: 0;
-        padding: 0;
-      }
-      .doc-demo li:before {
-        content: '';
-      }
-      .doc-demo-frame {
-        border: none;
-        display: none;
-        width: 100%;
-      }
-      .doc-demo-loader {
-        line-height: 100px;
-        width: 100%;
-        height: 100px;
-        text-align: center;
-      }
-    </style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -133,7 +37,7 @@
   <div class="bs-docs-header" id="content">
     <div class="container">
       <h1>Admin</h1>
-      <p>Adwise Workshop for Analysis System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
+      <p>Atwise Workshop for Analysis System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">
       <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
       </button>
@@ -277,10 +181,10 @@
     </table>
   </div>
   <script type="text/javascript">
-  /*+--------------------------------------------------------------------------------------------------+
-    | function callCustomerDetail เพื่อเรียกดูข้อมูลรายละเอียดของลูกค้าทั้งหมด 
-    | ซึ่งมีรายชื่อกลุ่ม รายการกิจกรรม สามารถเพิ่ม ลบ แก้ไข ได้
-    +--------------------------------------------------------------------------------------------------+*/
+    /*!
+     * function callCustomerDetail เพื่อเรียกดูข้อมูลรายละเอียดของลูกค้าทั้งหมด
+     * ซึ่งมีรายชื่อกลุ่ม รายการกิจกรรม สามารถเพิ่ม ลบ แก้ไข ได้
+     */
     function callCustomerDetail(gId) {
       $("#gId").attr("value", gId);
       var gId = $("#gId").attr("value");
@@ -330,9 +234,9 @@
           setTimeout(function () { window.location.reload(1); } ); /* Load page again when Bootbox close */ 
       })
       .modal('show');
-    /*+--------------------------------------------------------------------------------------------------+
-      | ปุ่มแสดงรายการกิจกรรม (สีฟ้า)
-      +--------------------------------------------------------------------------------------------------+*/
+      /*!
+       * ปุ่มแสดงรายการกิจกรรม (สีฟ้า)
+       */
       var myData = (function() {
           var myData = null;
           $.ajax({
@@ -356,9 +260,9 @@
           templateButton: '<a class="dropdown-checkbox-toggle btn btn-info" data-toggle="dropdown" href="#">รายการกิจกรรม <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;<span class="dropdown-checkbox-nbselected"></span>'
       });
     }
-  /*+--------------------------------------------------------------------------------------------------+
-    | function clear_form สร้างไว้เพื่อล้างค่าที่ค้างอยู่ใน form ที่ค้างอยู่ก่อนหน้านั้น
-    +--------------------------------------------------------------------------------------------------+*/
+    /*!
+     * function clear_form สร้างไว้เพื่อล้างค่าที่ค้างอยู่ใน form ที่ค้างอยู่ก่อนหน้านั้น
+     */
     function clear_form() {
       $(':input','form')
       .removeAttr('checked')
@@ -374,19 +278,19 @@
         '</a>'
       ].join('');
     }
+    /*!
+     * ปุ่มแสดงรายละเอียดของลูกค้า
+     * ซึ่งสามารถเพิ่ม ลบ แก้ไข ได้
+     */
     window.actionEvents = {
-    /*+--------------------------------------------------------------------------------------------------+
-      | ปุ่มแสดงรายละเอียดของลูกค้า
-      | ซึ่งสามารถเพิ่ม ลบ แก้ไข ได้
-      +--------------------------------------------------------------------------------------------------+*/
       'click .g_detail': function(e, value, row, index) {
         callCustomerDetail(row.group_id);
       },
     };
-  /*+--------------------------------------------------------------------------------------------------+
-    | ปุ่มเพิ่ม User (กลุ่ม)
-    | มีสองแบบคือ Automatic Register และ Manual Register
-    +--------------------------------------------------------------------------------------------------+*/
+    /*!
+     * ปุ่มเพิ่ม User (กลุ่ม)
+     * มีสองแบบคือ Automatic Register และ Manual Register
+     */
     $(document).on("click", "#regGroup", function(e) {
       bootbox.dialog({
         title: "Group Register",
@@ -439,9 +343,9 @@
       })
       .modal('show');
     });
-  /*+--------------------------------------------------------------------------------------------------+
-    | ปุ่มลบกลุ่มในลูกค้า (Delete User)
-    +--------------------------------------------------------------------------------------------------+*/
+    /*!
+     * ปุ่มลบกลุ่มในลูกค้า (Delete User)
+     */
     $(document).on("click", "a[id^='delUsrBtn_']", function(e) {
       var userId = $(this).attr('id').split('_')[1];
       // console.log('Delete User ID: '+userId);
@@ -480,9 +384,9 @@
         }
       });
     });
-  /*+--------------------------------------------------------------------------------------------------+
-    | ปุ่มลบกิจกรรมในลูกค้า (Delete Activity)
-    +--------------------------------------------------------------------------------------------------+*/
+    /*!
+     * ปุ่มลบกิจกรรมในลูกค้า (Delete Activity)
+     */
     $(document).on("click", "a[id^='delActBtn_']", function(e) {
       var comId = $(this).attr('id').split('_')[1];
       // console.log('Delete Activity ID: '+comId);
@@ -521,16 +425,16 @@
         }
       });
     });
-  /*+--------------------------------------------------------------------------------------------------+
-    | ปุ่มสั่งพิมพ์รายชื่อกลุ่ม
-    | ซึ่งจะสร้างเป็น PDF ก่อนพิมพ์
-    +--------------------------------------------------------------------------------------------------+*/
+    /*!
+     * ปุ่มสั่งพิมพ์รายชื่อกลุ่ม
+     * ซึ่งจะสร้างเป็น PDF ก่อนพิมพ์
+     */
     $(document).on("click", "#printBtn", function(e) {
       window.print();
     });
-  /*+--------------------------------------------------------------------------------------------------+
-    | ปุ่มเพิ่มรายการกิจกรรมในลูกค้า
-    +--------------------------------------------------------------------------------------------------+*/
+    /*!
+     * ปุ่มเพิ่มรายการกิจกรรมในลูกค้า
+     */
     $(document).on("click", "#addActivityBtn", function(e) {
       var item = $(".myDropdownCheckbox").dropdownCheckbox("checked");
       var data = new Array();

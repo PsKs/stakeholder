@@ -29,11 +29,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <title>Adwise Workshop for Analysis System</title>
+    <title>Atwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/doc.css" rel="stylesheet">
-
+    <link href="../css/default.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,43 +40,20 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
-        @media (min-width: 768px) {
-          .sidebar-nav .navbar .navbar-collapse {
-            padding: 0;
-            max-height: none;
-          }
-          .sidebar-nav .navbar ul {
-            float: none;
-          }
-          .sidebar-nav .navbar ul:not {
-            display: block;
-          }
-          .sidebar-nav .navbar li {
-            float: none;
-            display: block;
-          }
-          .sidebar-nav .navbar li a {
-            padding-top: 12px;
-            padding-bottom: 12px;
-          }
-          .ml10 {
-            margin-left: 10px;
-          }
-        }
-        .panel {  
-          margin-top: 50px;
-        }
-        table.table > tbody > tr > th {
-         text-align: center; 
-        }
-        table.table > tbody > tr:first-child > th:first-child {
-          background-color: #fff;
-          border: 0px solid #fff;
-        }
-        table.table > tbody > tr:first-child + tr > td:first-child {
-          background-color: #fff;
-          border: 0px solid #fff;
-        }
+      .panel {  
+        margin-top: 50px;
+      }
+      table.table > tbody > tr > th {
+       text-align: center; 
+      }
+      table.table > tbody > tr:first-child > th:first-child {
+        background-color: #fff;
+        border: 0px solid #fff;
+      }
+      table.table > tbody > tr:first-child + tr > td:first-child {
+        background-color: #fff;
+        border: 0px solid #fff;
+      }
     </style>
   </head>
   <body>

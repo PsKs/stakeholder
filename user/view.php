@@ -13,12 +13,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Pongsakorn Sonto">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
-    <title>Adwise Workshop for Analysis System</title>
+    <title>Atwise Workshop for Analysis System</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/default.css">
-    <link rel="stylesheet" href="../css/component.css">
-    <link rel="stylesheet" href="../css/doc.css">
+    
     <!-- DataTables CSS -->
     <!-- <link rel="stylesheet" href="../css/jquery.dataTables.css"> -->
     <link rel="stylesheet" href="../css/dataTables.colvis.jqueryui.css">
@@ -159,7 +158,7 @@
   <div class="bs-docs-header" id="content">
     <div class="container">
       <h1><?=$name?></h1>
-      <p>Adwise Workshop for Analysis System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
+      <p>Atwise Workshop for Analysis System</p><p>Atwise Consulting Co., Ltd. Success Management Company.</p>
       <button type="button" class="btn btn-primary outline pull-right" id="showLeft">
       <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
       </button>
