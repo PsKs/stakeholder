@@ -69,10 +69,10 @@
     *  $tmp = [];
     *  foreach ($ans_detail as $index => $value) {
     *    // print_r($value);
-    *    // echo "</br>";
+    *    // echo "<br/>";
     *    $tmp[$index] = explode('"],["', $value);
     *    // print_r($tmp);
-    *    // echo "</br>";
+    *    // echo "<br/>";
     *    unset($ans_detail);
     *    foreach ($tmp[$index] as $key => $val) {
     *      unset($ans_detail);
@@ -83,9 +83,9 @@
     *      } 
     *      $ans_detail[] = explode('","', trim($val, '[]"'));
     *      // print_r($val);
-    *      // echo "</br>";
+    *      // echo "<br/>";
     *      // print_r($ans_detail);
-    *      // echo "</br>";
+    *      // echo "<br/>";
     *      foreach ($ans_detail as $key => $value) {
     *        $json_data['data'][] = $value;
     *      }
@@ -96,10 +96,10 @@
     $tmp = [];
     foreach ($ans_detail as $index => $value) {
       // print_r($value);
-      // echo "</br>";
+      // echo "<br/>";
       $tmp[$index] = explode('"],["', $value);
       // print_r($tmp);
-      // echo "</br>";
+      // echo "<br/>";
       unset($ans_detail);
       foreach ($tmp[$index] as $key => $val) {
         unset($ans_detail);
@@ -110,9 +110,9 @@
         } 
         $ans_detail[] = explode('","', trim($val, '[]"'));
         // print_r($val);
-        // echo "</br>";
+        // echo "<br/>";
         // print_r($ans_detail);
-        // echo "</br>";
+        // echo "<br/>";
         foreach ($ans_detail as $key => $value) {
           $json_data['data'][] = $value;
         }

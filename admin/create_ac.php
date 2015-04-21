@@ -84,13 +84,13 @@
               <table class="table table-bordered table-hover table-striped" style="table-layout: fixed">
                 <label class="radio-inline">
                   <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">การระบุความเสี่ยงและการประเมินความเสี่ยง
-                </label></br>
+                </label><br/>
                 <label class="radio-inline">
                   <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">Stakeholder Analysis
-                </label></br>
+                </label><br/>
                 <label class="radio-inline">
                   <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">SWOT and TOWS Analysis
-                </label></br>
+                </label><br/>
                 <div class="box">
                   <a href="#" id="custom-show" class="showLink" onclick="showHide('custom');return false;"> Custom Activity</a>
                   <div id="custom" class="more">
@@ -105,7 +105,7 @@
                     ?>
                     <label class="checkbox-inline">
                       <input type="checkbox" name="<?php echo $stklist_id; ?>" id="<?php echo $stklist_id; ?>" value="<?php echo $stklist_id; ?>"> <?php echo $stklist_name; ?>
-                    </label></br>
+                    </label><br/>
                     <?php } ?>
                     <div class="box">
                       <p><a href="#" id="custom-hide" class="hideLink" onclick="showHide('custom');return false;"> Hide</a></p>

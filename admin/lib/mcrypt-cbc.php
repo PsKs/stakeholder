@@ -37,7 +37,7 @@
     // echo '<h2>Example #1: String Data</h2>';
     // echo 'Data to be Encrypted: ' . $data . '<br/>';
     // echo 'Encrypted Data: ' . $encrypted_data . '<br/>';
-    // echo 'Decrypted Data: ' . mc_decrypt($encrypted_data, ENCRYPTION_KEY) . '</br>';
+    // echo 'Decrypted Data: ' . mc_decrypt($encrypted_data, ENCRYPTION_KEY) . '<br/>';
 
     // $data = array(1, 5, 8, 9, 22, 10, 61);
     // $encrypted_data = mc_encrypt($data, ENCRYPTION_KEY);
