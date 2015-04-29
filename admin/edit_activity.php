@@ -1,5 +1,5 @@
 <?php
-  session_start();//session starts here 
+  require("lib/authen_admin.php");
   require("../connect.php");
   $ac_id = $_GET['ac'];
   $sql = "select activity.ac_no, activity.ac_name, stakeholder_list.stklist_id, stakeholder_list.stklist_name 

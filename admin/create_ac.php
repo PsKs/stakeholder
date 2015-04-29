@@ -1,5 +1,5 @@
 <?php  
-  session_start();//session starts here 
+  require("lib/authen_admin.php");
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +49,7 @@
     <a href="create_ac.php">Create Activity</a>
     <a href="view_ac.php">View Activity</a>
     <a href="conclude.php">Conclude</a>
+    <a href="../logout.php">Logout</a>
   </nav>
   <!-- End Menu -->
 
@@ -72,7 +73,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="desAct" class="col-xs-2">ลายระเอียด</label>
+          <label for="desAct" class="col-xs-2">รายละเอียด</label>
           <div class="col-xs-7">
             <input class="form-control" type="text" name="desAct" id="desAct" placeholder="Description" />
           </div>

@@ -1,5 +1,5 @@
 <?php  
-  session_start();//session starts here
+  require("lib/authen_admin.php");
   $group_id = $_GET['group_id'];
   $flag = "-";
   if (isset($_GET['activity_id']) && $_GET['activity_id'] !== 'undefined' && !isset($_GET['user_id'])) {
@@ -120,6 +120,7 @@
     <a href="create_ac.php">Create Activity</a>
     <a href="view_ac.php">View Activity</a>
     <a href="conclude.php">Conclude</a>
+    <a href="../logout.php">Logout</a>
   </nav>
   <!-- End Menu -->
 

@@ -1,7 +1,5 @@
 <?php
-  session_start();//session starts here
-  $name = $_SESSION['name'];
-  $user_id = $_SESSION['user_id'];
+  require("lib/authen_user.php");
   require("lib/check_ans.php");
   require("lib/view_user.php");
 ?>
@@ -17,92 +15,17 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/default.css">
-    
     <!-- DataTables CSS -->
     <!-- <link rel="stylesheet" href="../css/jquery.dataTables.css"> -->
     <link rel="stylesheet" href="../css/dataTables.colvis.jqueryui.css">
     <link rel="stylesheet" href="../css/dataTables.colvis.min.css">
     <link rel="stylesheet" href="../css/dataTables.bootstrap.css">
     <style type="text/css">
-      html, body {
-        width: auto !important;
-        overflow-x: hidden !important;
-      }
-      /***********************
-        OUTLINE BUTTONS
-      ************************/
-      .btn.outline {
-        background: none;
-        padding: 5px 5px;
-      }
-      .btn-primary.outline {
-        border: 2px solid #fff;
-        color: #fff;
-      }
-      .btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
-        color: #CCCCCC;
-        border-color: #CCCCCC;
-      }
-      .btn-primary.outline:active, .btn-primary.outline.active {
-        border-color: #A5A5A5;
-        color: #A5A5A5;
-      }
-      /***********************
-        CUSTOM BTN VALUES
-      ************************/
-      .btn {
-        padding: 10px 16px;
-        border: 0 none;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-      }
-      .btn:focus, .btn:active:focus, .btn.active:focus {
-        outline: 0 none;
-      }
-      .panel {  
-        margin-top: 50px;
-      }
-      .panel-heading a:after {
-        font-family:'Glyphicons Halflings';
-        content:"\e114";
-        float: right;
-        color: #fff;
-      }
-      .panel-heading a.collapsed:after {
-        content:"\e079";
-      }
-      .table {
-        /*font-size: 110%;*/
-        font-size: 100%;
-      }
-      /*.hover tbody tr:hover td, .table-hover tbody tr:hover th {
-        background-color: #fcfcfc;
-      }*/
-      tr.group, tr.group:hover {
-          background-color: #c5bad6 !important;
-      }
-      td, th { 
-        text-align: left; 
-      }
-      .panel {
-        border-color: #9a87b7;
-      }
-      .panel-primary > .panel-heading {
-        background-color: #9a87b7 !important;
-        border-color: #9a87b7;
-      }
-      .panel-primary > .panel-heading > .panel-title {
-        font-size: 120%
-      }
-      .panel-primary > .panel-heading + .panel-collapse > .panel-body {
-        border-color: #9a87b7;
-      }
-      a:focus, a:hover {
-        text-decoration: none;
+      a:hover {
+        color: #FFF;
+        text-decoration: underline;
       }
     </style>
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -170,6 +93,7 @@
       <h3>Menu</h3>
       <a href="index.php">Overview</a>
       <a href="view.php">View Activity</a>
+      <a href="../logout.php">Logout</a>
     </nav>
   </div>
   <!-- End Menu -->

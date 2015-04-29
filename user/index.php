@@ -1,7 +1,5 @@
 <?php  
-  session_start(); //session starts here
-  $name = $_SESSION['name'];
-  $user_id = $_SESSION['user_id'];
+  require("lib/authen_user.php");
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +47,7 @@
       <h3>Menu</h3>
       <a href="index.php">Overview</a>
       <a href="view.php">View Activity</a>
+      <a href="../logout.php">Logout</a>
     </nav>
   </div>
   <!-- End Menu -->

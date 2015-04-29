@@ -34,27 +34,43 @@
   </div>  
 </div>   
 <?php   
-require("connect.php");
+  require("connect.php");
+  require_once("admin/lib/PasswordHash.php");
+  require_once("admin/lib/mcrypt-cbc.php");
+  function decrypt($uKey, $encrypted_data) {
+    $salt = '@wiseconsulting';
+    $count = 1000;
+    $key_length = 32;
+    $key = pbkdf2('SHA256', $uKey, $salt, $count, $key_length, false);
+    define('ENCRYPTION_KEY', $key);
+    $decrypted_data = mc_decrypt($encrypted_data, ENCRYPTION_KEY);
+    return $decrypted_data;
+  }
   if(isset($_POST['login'])) {
     $user_name = $_POST['user_name'];  
     $user_pass = $_POST['user_pass'];
-    $check_user = "select * from users WHERE username ='$user_name'AND password ='$user_pass'";  
-    $result = mysqli_query($dbcon,$check_user);  
+    $fetch_encrypt_pass = "SELECT * FROM users WHERE users.username ='$user_name'";
+    $result = mysqli_query($dbcon,$fetch_encrypt_pass);  
     if (mysqli_num_rows($result)) {
       $res_group = mysqli_fetch_array($result);
-      //here session is used and value of $user_name store in $_SESSION.
-      $_SESSION['username'] = $res_group['username'];
-      $_SESSION['user_type'] = $res_group['user_type'];
-      $_SESSION['user_id'] = $res_group['user_id'];
-      $_SESSION['name'] = $res_group['name'];
-      
-      // Free result set
-      mysqli_free_result($result);
-      mysqli_close($dbcon); 
-      if ($res_group['user_type'] === 'admin') {
-          echo "<script>window.open('admin/index.php','_self')</script>";
-      } else if ($res_group['user_type'] === 'user') {
-          echo "<script>window.open('user/index.php','_self')</script>";
+      $encrypted_data = $res_group['password'];
+      $password = decrypt($user_name, $encrypted_data);
+      if ($user_pass == $password) {
+        //here session is used and value of $user_name store in $_SESSION.
+        $_SESSION['username'] = $res_group['username'];
+        $_SESSION['user_type'] = $res_group['user_type'];
+        $_SESSION['user_id'] = $res_group['user_id'];
+        $_SESSION['name'] = $res_group['name'];
+        // Free result set
+        mysqli_free_result($result);
+        mysqli_close($dbcon); 
+        if ($res_group['user_type'] === 'admin') {
+            echo "<script>window.open('admin/index.php','_self')</script>";
+        } else if ($res_group['user_type'] === 'user') {
+            echo "<script>window.open('user/index.php','_self')</script>";
+        }
+      } else {
+        echo "<script>alert_warning();</script>";
       }
     } else {
       echo "<script>alert_warning();</script>";

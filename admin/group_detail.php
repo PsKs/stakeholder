@@ -1,6 +1,6 @@
 <?php
   // print_r($_POST['group_id']);
-  session_start();//session starts here
+  require("lib/authen_admin.php");
   $group_id = $_GET['group_id'];
   $count_ac = $_GET['count_ac'];
   if ($count_ac === '0') {
@@ -134,6 +134,7 @@
     <a href="create_ac.php">Create Activity</a>
     <a href="view_ac.php">View Activity</a>
     <a href="conclude.php">Conclude</a>
+    <a href="../logout.php">Logout</a>
   </nav>
   <!-- End Menu -->
 
